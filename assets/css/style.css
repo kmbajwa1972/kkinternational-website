@@ -113,3 +113,18 @@ html body *::after {
   .hero-actions { display:flex; align-items:flex-start; flex-direction:column; gap:16px; }
   .hero-actions .text-link { width:max-content; max-width:100%; }
 }
+
+/* Dedicated business and product detail pages */
+.detail-intro{padding-top:78px;padding-bottom:72px}
+.detail-copy{max-width:1000px}
+.detail-copy>.large-copy{max-width:900px;font-size:clamp(18px,2vw,23px);line-height:1.7;margin-bottom:42px}
+.detail-photo-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:stretch}
+.detail-photo-grid img{display:block;width:100%;height:360px;object-fit:cover;border-radius:8px;box-shadow:0 12px 32px rgba(16,43,66,.10)}
+.detail-photo-grid img+img{height:300px;margin-top:60px}
+.detail-info{background:#f3f8fa;padding-top:82px;padding-bottom:88px}
+.detail-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px}
+.detail-info-grid article{background:#fff;border:1px solid #e0e9ee;padding:34px 36px;border-radius:7px}
+.detail-info-grid article>span{font-size:9px;letter-spacing:.16em;color:#159fbd;font-weight:700}
+.detail-info-grid h2{font-size:clamp(23px,3vw,32px);margin:20px 0 13px}
+.detail-info-grid p{font-size:14px;line-height:1.85;color:#687783;margin:0}
+@media(max-width:700px){.detail-intro{padding-top:55px;padding-bottom:50px}.detail-photo-grid,.detail-info-grid{grid-template-columns:1fr;gap:15px}.detail-photo-grid img,.detail-photo-grid img+img{height:240px;margin:0}.detail-info{padding-top:55px;padding-bottom:60px}.detail-info-grid article{padding:26px 23px}}
