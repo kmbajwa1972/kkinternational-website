@@ -88,10 +88,28 @@ html body *::after {
 }
 
 
+/* Hero actions: primary CTA on its own row, discovery links balanced beneath it. */
 @media (min-width: 701px) {
-  .hero-actions .text-link { flex: 0 1 auto; }
+  .hero-content > .hero-actions {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: start;
+    align-items: center;
+    column-gap: 28px;
+    row-gap: 20px;
+    width: max-content;
+    max-width: none;
+  }
+  .hero-content > .hero-actions > .btn-gold {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .hero-actions .text-link {
+    white-space: nowrap;
+    max-width: none;
+  }
 }
 @media (max-width: 700px) {
-  .hero-actions { align-items:flex-start; gap:16px; }
-  .hero-actions .text-link { flex:0 1 100%; width:max-content; }
+  .hero-actions { display:flex; align-items:flex-start; flex-direction:column; gap:16px; }
+  .hero-actions .text-link { width:max-content; max-width:100%; }
 }
