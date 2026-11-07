@@ -128,3 +128,5 @@ html body *::after {
 .detail-info-grid h2{font-size:clamp(23px,3vw,32px);margin:20px 0 13px}
 .detail-info-grid p{font-size:14px;line-height:1.85;color:#687783;margin:0}
 @media(max-width:700px){.detail-intro{padding-top:55px;padding-bottom:50px}.detail-photo-grid,.detail-info-grid{grid-template-columns:1fr;gap:15px}.detail-photo-grid img,.detail-photo-grid img+img{height:240px;margin:0}.detail-info{padding-top:55px;padding-bottom:60px}.detail-info-grid article{padding:26px 23px}}
+
+.division-detail-link{color:var(--green);text-decoration:none;transition:color .2s}.division-detail-link:hover{color:#009fc4}
