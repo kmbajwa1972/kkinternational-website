@@ -45,3 +45,22 @@ html body *::after {
 .hero-orbit.orbit-two{z-index:0;}
 @media(max-width:900px){.hero-content>*{max-width:62%;}.hero-photo-circle{right:2.5%;width:35vw;border-width:0;}}
 @media(max-width:700px){.hero{min-height:760px;align-items:flex-start}.hero-content{padding-top:245px}.hero-content>*{max-width:100%;}.hero-photo-circle{width:190px;right:calc(50% - 95px);top:22px;transform:none;border-width:0;box-shadow:0 10px 30px rgba(0,0,0,.25),0 0 18px rgba(6,198,240,.18);}}
+
+
+/* Slow, independent movement for the two decorative background circles only. */
+.hero-orbit {
+  will-change: transform;
+  animation: kk-orbit-float 18s ease-in-out infinite;
+}
+.hero-orbit.orbit-two {
+  animation-duration: 24s;
+  animation-delay: -8s;
+  animation-direction: alternate-reverse;
+}
+@keyframes kk-orbit-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-18px, 14px, 0) scale(1.015); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-orbit { animation: none !important; }
+}
