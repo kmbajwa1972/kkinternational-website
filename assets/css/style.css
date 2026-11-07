@@ -121,6 +121,10 @@ html body *::after {
 .detail-photo-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:stretch}
 .detail-photo-grid img{display:block;width:100%;height:360px;object-fit:cover;border-radius:8px;box-shadow:0 12px 32px rgba(16,43,66,.10)}
 .detail-photo-grid img+img{height:300px;margin-top:60px}
+/* Fresh Fruits page: equal large fruit and vegetable photos */
+.fresh-fruits-page .detail-photo-grid{grid-template-columns:1fr 1fr;gap:22px}
+.fresh-fruits-page .detail-photo-grid img,.fresh-fruits-page .detail-photo-grid img+img{height:400px;margin-top:0}
+@media(max-width:700px){.fresh-fruits-page .detail-photo-grid{grid-template-columns:1fr}.fresh-fruits-page .detail-photo-grid img,.fresh-fruits-page .detail-photo-grid img+img{height:280px}}
 .detail-info{background:#f3f8fa;padding-top:82px;padding-bottom:88px}
 .detail-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px}
 .detail-info-grid article{background:#fff;border:1px solid #e0e9ee;padding:34px 36px;border-radius:7px}
