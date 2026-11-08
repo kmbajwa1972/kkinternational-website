@@ -202,3 +202,19 @@ html body *::after {
 .contact-placeholder .contact-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:12px;row-gap:12px;align-items:stretch}
 .contact-placeholder .contact-actions>.btn{display:flex;box-sizing:border-box;width:100%;height:52px;min-height:52px;margin:0!important;padding:10px 8px;align-items:center;justify-content:center;text-align:center;line-height:1.25;white-space:nowrap;gap:5px}
 @media(max-width:700px){.contact-placeholder .contact-actions{column-gap:9px;row-gap:10px}.contact-placeholder .contact-actions>.btn{height:48px;min-height:48px;padding:8px 5px;font-size:10px;white-space:normal}}
+
+/* About page FAQ */
+.about-faq{background:#f3f8fa}
+.faq-heading{display:grid;grid-template-columns:1fr .75fr;gap:55px;align-items:end;margin-bottom:34px}
+.faq-heading h2{margin:12px 0 0}
+.faq-heading>p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 5px}
+.faq-list{border-top:1px solid #dbe5e9}
+.faq-item{border-bottom:1px solid #dbe5e9;padding:0 4px}
+.faq-item summary{position:relative;list-style:none;cursor:pointer;padding:22px 42px 22px 0;font:700 16px Manrope,sans-serif;color:var(--green)}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:after{content:"+";position:absolute;right:8px;top:50%;transform:translateY(-50%);font:400 25px 'DM Sans',sans-serif;color:#079fbd}
+.faq-item[open] summary:after{content:"−"}
+.faq-answer{max-width:850px;padding:0 40px 20px 0}
+.faq-answer p{font-size:13px;line-height:1.85;color:#687783;margin:0}
+.faq-answer a{color:#078eaa;font-weight:700}
+@media(max-width:700px){.faq-heading{grid-template-columns:1fr;gap:14px;margin-bottom:24px}.faq-item summary{font-size:14px;padding:19px 38px 19px 0}.faq-answer{padding-right:12px}}
