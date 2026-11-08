@@ -182,3 +182,12 @@ html body *::after {
 .songket-whatsapp-link{margin:0 20px 18px;align-self:flex-start}
 @media(max-width:850px){.nav-links{gap:12px}.nav-links .nav-whatsapp{padding:9px 10px}}
 @media(max-width:700px){.nav-links .nav-whatsapp{font-size:10px;padding:8px}.btn-whatsapp{margin:8px 0 0}.product-image-card .product-card-actions{padding-left:20px;padding-right:20px}}
+
+/* Distinguish the two WhatsApp office destinations */
+.nav-links .nav-whatsapp-my{background:#087f9b}
+.nav-links .nav-whatsapp-my:hover{background:#06677e}
+.btn-whatsapp-my,.product-whatsapp-my,.songket-whatsapp-my{background:#087f9b}
+.btn-whatsapp-my:hover{background:#06677e}
+@media(max-width:950px){.nav-links{gap:9px}.nav-links .nav-whatsapp{padding:8px 9px;font-size:10px}}
+@media(max-width:700px){.nav-links{flex-wrap:wrap}.nav-links .nav-whatsapp{font-size:9px;padding:7px 8px}}
+.product-card-actions{align-items:center}
