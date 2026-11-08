@@ -197,3 +197,8 @@ html body *::after {
 .contact-placeholder .contact-actions .btn{width:100%;min-width:0;min-height:46px;margin:0;padding:12px 10px;gap:6px;text-align:center;white-space:normal;line-height:1.35;font-size:11px}
 .contact-placeholder .contact-actions .btn-whatsapp{margin:0}
 @media(max-width:700px){.contact-placeholder{padding:26px 20px}.contact-placeholder .contact-actions{gap:9px}.contact-placeholder .contact-actions .btn{font-size:10px;padding:11px 7px}}
+
+/* Final contact action alignment: identical button boxes and clear row spacing */
+.contact-placeholder .contact-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:12px;row-gap:12px;align-items:stretch}
+.contact-placeholder .contact-actions>.btn{display:flex;box-sizing:border-box;width:100%;height:52px;min-height:52px;margin:0!important;padding:10px 8px;align-items:center;justify-content:center;text-align:center;line-height:1.25;white-space:nowrap;gap:5px}
+@media(max-width:700px){.contact-placeholder .contact-actions{column-gap:9px;row-gap:10px}.contact-placeholder .contact-actions>.btn{height:48px;min-height:48px;padding:8px 5px;font-size:10px;white-space:normal}}
