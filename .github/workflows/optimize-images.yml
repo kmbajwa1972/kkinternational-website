@@ -1,0 +1,88 @@
+name: Optimize site photos to WebP
+
+on:
+  push:
+    branches:
+      - development/site-source-import
+    paths:
+      - '.github/workflows/optimize-images.yml'
+      - 'assets/images/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out development branch
+        uses: actions/checkout@v4
+        with:
+          ref: development/site-source-import
+      - name: Install image tools
+        run: |
+          python -m pip install Pillow
+      - name: Convert photos and update references
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps
+
+          root = Path(".")
+          image_dir = root / "assets" / "images"
+          supported = {".png", ".jpg", ".jpeg", ".webp"}
+          preserve = {"favicon.png"}
+          replacements = {}
+          converted = []
+
+          for source in sorted(image_dir.iterdir()):
+              if not source.is_file() or source.suffix.lower() not in supported or source.name.lower() in preserve:
+                  continue
+              target = source.with_suffix(".webp")
+              try:
+                  with Image.open(source) as original:
+                      image = ImageOps.exif_transpose(original)
+                      if image.mode not in ("RGB", "RGBA"):
+                          image = image.convert("RGBA" if "transparency" in image.info else "RGB")
+                      image.thumbnail((1920, 1920), Image.Resampling.LANCZOS)
+                      image.save(target, "WEBP", quality=82, method=6)
+                  replacements[source.as_posix()] = target.as_posix()
+                  replacements[source.as_posix().replace(" ", "%20")] = target.as_posix().replace(" ", "%20")
+                  converted.append((source, target))
+              except Exception as exc:
+                  raise RuntimeError(f"Could not convert {source}: {exc}")
+
+          text_exts = {".html", ".htm", ".css", ".js", ".json", ".xml", ".md", ".txt"}
+          for file in root.rglob("*"):
+              if not file.is_file() or file.suffix.lower() not in text_exts or ".git" in file.parts:
+                  continue
+              try:
+                  text = file.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+              updated = text
+              for old, new in replacements.items():
+                  updated = updated.replace(old, new)
+              if updated != text:
+                  file.write_text(updated, encoding="utf-8")
+
+          for source, target in converted:
+              if source != target and source.exists():
+                  source.unlink()
+
+          print(f"Converted/optimized {len(converted)} photo files.")
+          for _, target in converted:
+              print(f"{target}: {target.stat().st_size:,} bytes")
+          PY
+      - name: Commit optimized photos
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Optimize site photography as WebP"
+            git push origin development/site-source-import
+          else
+            echo "No image changes required."
+          fi
