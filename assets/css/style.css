@@ -218,3 +218,24 @@ html body *::after {
 .faq-answer p{font-size:13px;line-height:1.85;color:#687783;margin:0}
 .faq-answer a{color:#078eaa;font-weight:700}
 @media(max-width:700px){.faq-heading{grid-template-columns:1fr;gap:14px;margin-bottom:24px}.faq-item summary{font-size:14px;padding:19px 38px 19px 0}.faq-answer{padding-right:12px}}
+
+
+/* Premium three-part footer: centered company identity with balanced side links */
+.footer{position:relative;isolation:isolate;overflow:hidden;background:#071a2d;color:#e8f3f7;padding:62px 0 22px}
+.footer:before{content:"";position:absolute;z-index:-1;left:50%;top:-190px;transform:translateX(-50%);width:min(760px,75vw);height:520px;border-radius:50%;background:radial-gradient(ellipse,rgba(18,111,190,.48) 0%,rgba(13,71,132,.25) 42%,rgba(7,26,45,0) 72%);pointer-events:none}
+.footer-showcase{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:36px;align-items:center;min-height:245px;padding:0 2% 48px}
+.footer-side{display:flex;flex-direction:column;gap:13px;min-width:0}
+.footer-left{align-items:flex-start;text-align:left}.footer-right{align-items:flex-end;text-align:right}
+.footer-kicker{font-size:10px!important;letter-spacing:.2em;color:#28c2d7!important;font-weight:800;margin-bottom:8px}
+.footer-side a,.footer-side>span:not(.footer-kicker){font-size:12px;color:#c0d1dc;text-decoration:none;line-height:1.55;transition:color .2s}
+.footer-side a:hover{color:#48d6e8}
+.footer-center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-width:0}
+.footer-logo-link{display:flex;align-items:center;justify-content:center;width:116px;height:116px;margin-bottom:13px;border-radius:50%;background:radial-gradient(circle,rgba(35,184,220,.17),rgba(35,184,220,0) 72%);filter:drop-shadow(0 0 24px rgba(31,173,232,.3))}
+.footer-logo-link img{display:block;width:100%;height:100%;object-fit:contain}
+.footer-center-name{font:300 clamp(19px,2.2vw,27px) Manrope,sans-serif;letter-spacing:.12em;color:#f5fbff}
+.footer-center-name b{font-weight:800}
+.footer-center p{font-size:9px;letter-spacing:.22em;color:#8fc5d6;margin:9px 0 12px}
+.footer-established{font-size:9px;letter-spacing:.22em;color:#28c2d7;font-weight:700}
+.footer-bottom{border-top:1px solid rgba(137,197,221,.2);padding-top:18px;display:flex;justify-content:space-between;gap:15px;color:#91a9b8;font-size:10px;letter-spacing:.06em}
+.footer-bottom a{color:#91a9b8;text-decoration:none}.footer-bottom a:hover{color:#35c6dc}
+@media(max-width:700px){.footer{padding:46px 0 18px}.footer-showcase{grid-template-columns:1fr;gap:30px;padding:0 0 34px;min-height:0}.footer-center{grid-row:1}.footer-left,.footer-right{align-items:center;text-align:center}.footer-side{gap:10px}.footer-kicker{margin-bottom:3px}.footer-logo-link{width:96px;height:96px}.footer-bottom{flex-direction:column;align-items:center;text-align:center;line-height:1.6}}
