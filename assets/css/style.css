@@ -239,3 +239,9 @@ html body *::after {
 .footer-bottom{border-top:1px solid rgba(137,197,221,.2);padding-top:18px;display:flex;justify-content:space-between;gap:15px;color:#91a9b8;font-size:10px;letter-spacing:.06em}
 .footer-bottom a{color:#91a9b8;text-decoration:none}.footer-bottom a:hover{color:#35c6dc}
 @media(max-width:700px){.footer{padding:46px 0 18px}.footer-showcase{grid-template-columns:1fr;gap:30px;padding:0 0 34px;min-height:0}.footer-center{grid-row:1}.footer-left,.footer-right{align-items:center;text-align:center}.footer-side{gap:10px}.footer-kicker{margin-bottom:3px}.footer-logo-link{width:96px;height:96px}.footer-bottom{flex-direction:column;align-items:center;text-align:center;line-height:1.6}}
+
+
+/* Footer-only globe rotation */
+.footer-center .footer-logo-link img{animation:footer-globe-spin 28s linear infinite;transform-origin:50% 50%;will-change:transform}
+@keyframes footer-globe-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.footer-center .footer-logo-link img{animation:none;will-change:auto}}
