@@ -53,7 +53,7 @@ function doPost(e) {
     if (!name || !company || !email || !message) {
       throw new Error("Please complete all required fields.");
     }
-    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       throw new Error("The sender email address is not valid.");
     }
 
@@ -88,7 +88,7 @@ function doPost(e) {
 }
 
 function clean_(value) {
-  return String(value == null ? "" : value).replace(/[\\u0000-\\u001F\\u007F]/g, " ").trim().slice(0, 4000);
+  return String(value == null ? "" : value).replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, 4000);
 }
 
 function response_(status) {
