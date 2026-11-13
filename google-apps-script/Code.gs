@@ -10,7 +10,7 @@
  */
 
 const OFFICE_RECIPIENTS = Object.freeze({
-  pakistan: "kkinternational@gmail.com",
+  pakistan: "kkimpakistan@gmail.com",
   malaysia: "bajwa255@yahoo.com"
 });
 
