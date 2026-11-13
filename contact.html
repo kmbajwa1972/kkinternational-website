@@ -149,12 +149,12 @@
    setType('buy');
    status.textContent='Thank you. Your enquiry has been submitted to the selected office. We will contact you as soon as possible.';
   }catch(error){
-   status.textContent='We could not send your enquiry right now. Please try again, or contact the selected office directly.';
+   status.textContent=error.message||'We could not send your enquiry right now. Please try again, or contact the selected office directly.';
   }finally{
    submitButton.disabled=false;
    submitButton.textContent='Submit Product Inquiry';
   }
- });;
+ });
 })();
 </script>
 </body></html>
