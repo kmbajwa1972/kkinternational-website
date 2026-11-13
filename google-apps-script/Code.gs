@@ -34,12 +34,13 @@ const ALLOWED_FIELDS = [
 ];
 
 function doPost(e) {
+  const p = (e && e.parameter) || {};
+  const requestId = clean_(p.requestId);
   try {
-    const p = (e && e.parameter) || {};
 
     // Honeypot: silently accept automated submissions without sending email.
     if (String(p.website || "").trim()) {
-      return response_("success");
+      return response_("success", requestId);
     }
 
     const office = String(p.office || "").toLowerCase();
@@ -80,10 +81,10 @@ function doPost(e) {
       name: "K.K. International Website"
     });
 
-    return response_("success");
+    return response_("success", requestId);
   } catch (err) {
     console.error(err);
-    return response_("error");
+    return response_("error", requestId);
   }
 }
 
@@ -91,9 +92,10 @@ function clean_(value) {
   return String(value == null ? "" : value).replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, 4000);
 }
 
-function response_(status) {
+function response_(status, requestId) {
+  const safeRequestId = JSON.stringify(String(requestId || ""));
   const html = '<!doctype html><html><body><script>' +
-    'window.top.postMessage({type:"kk-enquiry-result",status:"' + status + '"},"*");' +
+    'window.top.postMessage({type:"kk-enquiry-result",status:"' + status + '",requestId:' + safeRequestId + '}, "*");' +
     '</script></body></html>';
   return HtmlService.createHtmlOutput(html)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
