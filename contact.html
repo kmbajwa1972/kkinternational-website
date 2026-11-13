@@ -84,6 +84,7 @@
 <div class="enquiry-submit"><button type="submit" class="btn btn-dark">Submit Product Inquiry</button></div>
 <p id="enquiryStatus" class="enquiry-note" role="status" aria-live="polite">Your enquiry will be sent directly by email to the office you select. We aim to respond within 1–2 business days.</p>
 <input type="text" name="website" tabindex="-1" autocomplete="off" class="enquiry-hidden" aria-hidden="true">
+<input type="hidden" name="requestId" id="enquiryRequestId" value="">
 </form>
 <iframe name="kkEnquiryFrame" id="kkEnquiryFrame" title="Enquiry submission" class="enquiry-hidden"></iframe>
 </div>
@@ -117,16 +118,27 @@
  const status=document.getElementById('enquiryStatus');
  const frame=document.getElementById('kkEnquiryFrame');
  let waiting=false;
+ let activeRequestId="";
+ let responseTimer=null;
  form.addEventListener('submit',function(event){
   if(!form.reportValidity()){event.preventDefault();return;}
   waiting=true;
+  activeRequestId=Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);
+  document.getElementById("enquiryRequestId").value=activeRequestId;
   submitButton.disabled=true;
   submitButton.textContent='Sending Enquiry…';
   status.textContent='Sending your enquiry securely. Please wait…';
+  clearTimeout(responseTimer);
+  responseTimer=setTimeout(function(){
+   if(!waiting)return;
+   waiting=false;submitButton.disabled=false;submitButton.textContent="Submit Product Inquiry";
+   status.textContent="We have not received a confirmation. Please check with the selected office before submitting again.";
+  },45000);
  });
  window.addEventListener('message',function(event){
-  if(!frame||event.source!==frame.contentWindow||!event.data||event.data.type!=='kk-enquiry-result')return;
+  if(!event.data||event.data.type!=='kk-enquiry-result'||event.data.requestId!==activeRequestId)return;
   if(!waiting)return;
+  clearTimeout(responseTimer);
   waiting=false;
   submitButton.disabled=false;
   submitButton.textContent='Submit Product Inquiry';
