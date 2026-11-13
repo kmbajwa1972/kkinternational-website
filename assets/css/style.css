@@ -262,3 +262,16 @@ html body *::after {
 .kk-gallery-eight .kk-textile-card img{height:320px}
 @media(max-width:850px){.kk-textile-gallery,.kk-manufacturing-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.kk-textile-gallery,.kk-manufacturing-gallery{grid-template-columns:1fr;gap:15px}.kk-textile-card img,.kk-products-gallery .kk-textile-card img,.kk-gallery-eight .kk-textile-card img{height:280px}.kk-manufacturing-section h2{font-size:2.15rem}}
+
+
+/* Contact office addresses: clear, consistent, easy-to-read typography */
+.contact-detail b {
+  display: block;
+  margin: 8px 0 10px;
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  letter-spacing: 0;
+  color: #42515c;
+}
