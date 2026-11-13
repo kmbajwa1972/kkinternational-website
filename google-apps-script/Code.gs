@@ -53,7 +53,7 @@ function doPost(e) {
     if (!name || !company || !email || !message) {
       throw new Error("Please complete all required fields.");
     }
-    if (!/^[^\s@]+@[^\s@]+\\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       throw new Error("The sender email address is not valid.");
     }
 
