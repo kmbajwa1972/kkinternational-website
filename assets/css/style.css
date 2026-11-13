@@ -245,3 +245,20 @@ html body *::after {
 .footer-center .footer-logo-link img{animation:footer-globe-spin 28s linear infinite;transform-origin:50% 50%;will-change:transform}
 @keyframes footer-globe-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.footer-center .footer-logo-link img{animation:none;will-change:auto}}
+
+/* K.K. International Samping and Songket product photography */
+.kk-textile-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:34px}
+.kk-textile-card{margin:0;min-width:0;background:#fff;border:1px solid #e1e9ed;border-radius:8px;overflow:hidden;box-shadow:0 10px 28px rgba(16,43,66,.07)}
+.kk-textile-card>a{display:block;background:#f1f4f5;overflow:hidden}
+.kk-textile-card img{display:block;width:100%;height:300px;object-fit:cover;transition:transform .35s ease}
+.kk-textile-card:hover img{transform:scale(1.025)}
+.kk-textile-card figcaption{padding:15px 17px 17px;font:700 14px Manrope,sans-serif;color:var(--green)}
+.kk-manufacturing-section{background:#f3f8fa}
+.kk-manufacturing-section h2{max-width:800px;margin-bottom:20px}
+.kk-manufacturing-section>.container>.large-copy{max-width:900px;font-size:19px;line-height:1.7}
+.kk-manufacturing-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kk-products-gallery .kk-textile-card img{height:320px}
+.kk-textile-note{font-size:11px;color:#788791;margin:20px 0 0}
+.kk-gallery-eight .kk-textile-card img{height:320px}
+@media(max-width:850px){.kk-textile-gallery,.kk-manufacturing-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.kk-textile-gallery,.kk-manufacturing-gallery{grid-template-columns:1fr;gap:15px}.kk-textile-card img,.kk-products-gallery .kk-textile-card img,.kk-gallery-eight .kk-textile-card img{height:280px}.kk-manufacturing-section h2{font-size:2.15rem}}
