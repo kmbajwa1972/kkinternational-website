@@ -275,3 +275,7 @@ html body *::after {
   letter-spacing: 0;
   color: #42515c;
 }
+
+/* Fill the finished-textiles showcase card like the neighbouring portfolio images */
+.showcase-card[href="textile-products.html"] img{transform:scale(1.24)}
+.showcase-card[href="textile-products.html"]:hover img{transform:scale(1.29)}
