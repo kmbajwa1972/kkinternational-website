@@ -49,7 +49,7 @@
 <main>
 <section class="page-hero"><div class="container"><div class="eyebrow light"><i></i> BUSINESS ENQUIRIES</div><h1>Let's talk<br><em>business.</em></h1><p>Tell us whether you want to buy products or offer products for international trade. Choose the relevant enquiry type and share your requirements.</p></div></section>
 <section class="section-pad"><div class="container enquiry-wrap">
-<div class="enquiry-intro"><div class="eyebrow"><i></i> BUYER &amp; SELLER ENQUIRY CENTRE</div><h2>How can we <em>work together?</em></h2><p class="muted">Complete the form below. The enquiry will be prepared as a WhatsApp message for the K.K. International office you select.</p></div>
+<div class="enquiry-intro"><div class="eyebrow"><i></i> BUYER &amp; SELLER ENQUIRY CENTRE</div><h2>How can we <em>work together?</em></h2><p class="muted">Complete the form below. Your enquiry will be emailed directly to the office you select.</p></div>
 <div class="enquiry-card">
 <form id="businessEnquiry" class="enquiry-form">
 <div class="enquiry-field full"><span class="enquiry-section-title">First, choose your enquiry type</span>
@@ -82,7 +82,7 @@
 <label><input type="radio" name="office" value="malaysia"><span><b>Malaysia office</b><br><small>+60 16 331 6958</small></span></label>
 </div>
 <div class="enquiry-submit"><button type="submit" class="btn btn-dark">Submit Product Inquiry</button></div>
-<p class="enquiry-note">Submitting opens WhatsApp with your enquiry details ready to send. Please review the message before sending. We aim to respond to enquiries within 1–2 business days.</p>
+<p id="enquiryStatus" class="enquiry-note" role="status" aria-live="polite">Your enquiry will be sent directly by email to the office you select. We aim to respond within 1–2 business days.</p>
 </form>
 </div>
 <div class="contact-grid" style="margin-top:48px">
@@ -111,20 +111,49 @@
  }
  typeInputs.forEach(input=>input.addEventListener('change',()=>setType(input.value)));
  setType('buy');
- form.addEventListener('submit',function(event){
+  const submitButton=form.querySelector('button[type="submit"]');
+ const status=document.getElementById('enquiryStatus');
+ const recipients={pakistan:'kkinternational@gmail.com',malaysia:'bajwa255@yahoo.com'};
+ form.addEventListener('submit',async function(event){
   event.preventDefault();
   if(!form.reportValidity())return;
   const data=new FormData(form);
-  const type=data.get('enquiryType')==='buy'?'I WANT TO BUY':'I WANT TO SELL';
   const office=data.get('office');
-  const phone=office==='malaysia'?'60163316958':'923008637155';
-  const lines=['BUSINESS ENQUIRY — K.K. INTERNATIONAL',type,''];
+  const recipient=recipients[office];
+  if(!recipient){status.textContent='Please select a receiving office and try again.';return;}
+  const type=data.get('enquiryType')==='buy'?'BUYER ENQUIRY':'SELLER / SUPPLIER ENQUIRY';
+  const payload={
+   _subject:'New '+type+' — K.K. International',
+   _replyto:data.get('Email'),
+   _template:'table',
+   _url:'https://kkimpakistan.com/contact.html',
+   'Enquiry type':type,
+   'Receiving office':office==='malaysia'?'Malaysia office':'Pakistan office'
+  };
   for(const [key,value] of data.entries()){
    if(key==='enquiryType'||key==='office'||!String(value).trim())continue;
-   lines.push(key+': '+value);
+   payload[key]=String(value).trim();
   }
-  lines.push('','Please contact me regarding this enquiry.');
-  window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(lines.join('\n')),'_blank','noopener');
+  submitButton.disabled=true;
+  submitButton.textContent='Sending Enquiry…';
+  status.textContent='Sending your enquiry. Please wait…';
+  try{
+   const response=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(recipient),{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(payload)
+   });
+   const result=await response.json();
+   if(!response.ok||String(result.success)!=='true')throw new Error(result.message||'Email service rejected the enquiry.');
+   form.reset();
+   setType('buy');
+   status.textContent='Thank you. Your enquiry has been submitted to the selected office. We will contact you as soon as possible.';
+  }catch(error){
+   status.textContent=error.message||'We could not send your enquiry right now. Please try again, or contact the selected office directly.';
+  }finally{
+   submitButton.disabled=false;
+   submitButton.textContent='Submit Product Inquiry';
+  }
  });
 })();
 </script>
