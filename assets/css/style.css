@@ -276,6 +276,10 @@ html body *::after {
   color: #42515c;
 }
 
-/* Fill the finished-textiles showcase card like the neighbouring portfolio images */
-.showcase-card[href="textile-products.html"] img{transform:scale(1.24)}
-.showcase-card[href="textile-products.html"]:hover img{transform:scale(1.29)}
+/* Crop the built-in side margins from the finished-textiles source image */
+.showcase-card[href="textile-products.html"] img{transform:scale(1.48);object-fit:cover;object-position:center}
+.showcase-card[href="textile-products.html"]:hover img{transform:scale(1.52)}
+@media(max-width:850px){
+  .showcase-card[href="textile-products.html"] img{transform:scale(1.68);object-fit:cover;object-position:center}
+  .showcase-card[href="textile-products.html"]:hover img{transform:scale(1.72)}
+}
