@@ -1,1 +1,131 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contact | K.K International</title><meta name="description" content="Contact K.K International in Multan, Pakistan for import, export, sourcing and wholesale business enquiries."><link rel="icon" href="assets/favicon.png" type="image/png"><link rel="stylesheet" href="assets/css/style.css"></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><img class="brand-logo" src="assets/kk-globe-logo.png" alt="K.K. International globe logo"><span class="brand-name">K.K <b>INTERNATIONAL</b><small>IMPORT · EXPORT · TRADE</small></span></a><button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button><nav class="nav-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="divisions.html">Business Divisions</a><a href="products.html">Products</a><a href="trade.html">Import & Export</a><a class="active nav-cta" href="contact.html">Contact Us ↗</a></nav></div></header><main><section class="page-hero"><div class="container"><div class="eyebrow light"><i></i> CONTACT K.K INTERNATIONAL</div><h1>Let's talk<br><em>business.</em></h1><p>Share your product requirement, sourcing enquiry or potential business partnership.</p></div></section><section class="section-pad"><div class="container contact-grid"><div><div class="eyebrow"><i></i> BUSINESS ENQUIRIES</div><h2>Start a <em>conversation.</em></h2><p class="muted">Contact either office for import, export, sourcing, wholesale and business partnership enquiries.</p><div class="contact-detail"><span>PAKISTAN OFFICE · K.K. INTERNATIONAL</span><b>XVIII-41/1/A/2, Chah Jatoo Wala, Vehari Road, Multan 60000, Pakistan</b><a href="tel:+923008637155">+92 300 8637155</a></div><div class="contact-detail"><span>MALAYSIA CORPORATE OFFICE · PACIFIC MEGA MARKETING SDN. BHD.</span><b>2758B, Tingkat 2, Jalan Changkat Per Taman, Permata, 53300 Kuala Lumpur, Malaysia</b><a href="tel:+60163316958">+60 16 331 6958</a></div></div><div class="contact-placeholder"><div class="line-icon">✆</div><h3>Speak with our offices</h3><p>For business enquiries, contact the Pakistan office or Malaysia corporate office directly by telephone.</p><a class="btn btn-dark" href="tel:+923008637155">Call Pakistan Office ↗</a><a class="btn btn-dark" href="tel:+60163316958">Call Malaysia Office ↗</a><small>Business hours and email contact can be added when confirmed.</small></div></div></section></main><footer class="footer"><div class="container footer-bottom"><span>© <span id="year"></span> K.K International.</span><span>Multan, Pakistan</span></div></footer><script src="assets/js/main.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buyer &amp; Seller Enquiries | K.K. International</title>
+<meta name="description" content="Send buyer or seller enquiries to K.K. International for agricultural products, crop protection, textile yarn, finished textiles, fresh fruits, rice, safety matches and industrial machinery.">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.enquiry-wrap{max-width:980px;margin:0 auto}
+.enquiry-card{background:#fff;border:1px solid rgba(30,40,35,.12);border-radius:18px;padding:clamp(22px,4vw,42px);box-shadow:0 18px 50px rgba(24,38,30,.08)}
+.enquiry-intro{text-align:center;max-width:680px;margin:0 auto 28px}
+.enquiry-intro h2{margin:8px 0 12px}
+.enquiry-type{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.enquiry-type label{display:block;border:1px solid rgba(30,40,35,.2);border-radius:12px;padding:18px 16px;cursor:pointer;transition:.2s}
+.enquiry-type label:has(input:checked){border-color:#263d32;background:#f1f5f1;box-shadow:inset 0 0 0 1px #263d32}
+.enquiry-type input{margin-right:8px;accent-color:#263d32}
+.enquiry-type strong{display:block;margin-top:8px;font-size:18px}
+.enquiry-type small{display:block;margin-top:5px;color:#68736d}
+.enquiry-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.enquiry-field{display:flex;flex-direction:column;gap:7px}
+.enquiry-field.full{grid-column:1/-1}
+.enquiry-field label,.enquiry-section-title{font-size:13px;font-weight:700;letter-spacing:.02em;color:#35443b}
+.enquiry-field input,.enquiry-field select,.enquiry-field textarea{width:100%;min-height:48px;padding:12px 13px;border:1px solid #d7ddd8;border-radius:8px;background:#fff;color:#25342b;font:inherit}
+.enquiry-field textarea{min-height:112px;resize:vertical}
+.enquiry-field input:focus,.enquiry-field select:focus,.enquiry-field textarea:focus{outline:2px solid rgba(49,86,65,.2);border-color:#526d5c}
+.enquiry-divider{grid-column:1/-1;border-top:1px solid #e5e9e5;margin:8px 0 2px;padding-top:18px}
+.enquiry-section-title{font-size:15px;margin-bottom:14px}
+.enquiry-hidden{display:none!important}
+.enquiry-office{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.enquiry-office label{border:1px solid #d7ddd8;border-radius:9px;padding:13px;display:flex;gap:9px;align-items:center;cursor:pointer}
+.enquiry-office input{accent-color:#263d32}
+.enquiry-submit{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
+.enquiry-submit .btn{border:0;cursor:pointer}
+.enquiry-note{font-size:12px;color:#68736d;line-height:1.6;margin:0}
+.contact-detail{margin-top:20px}
+.contact-detail span{display:block}
+.contact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+@media(max-width:640px){.enquiry-type,.enquiry-form,.enquiry-office{grid-template-columns:1fr}.enquiry-field.full,.enquiry-divider,.enquiry-office,.enquiry-submit{grid-column:1}.enquiry-submit .btn{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="index.html"><img class="brand-logo" src="assets/kk-globe-logo.png" alt="K.K. International globe logo"><span class="brand-name">K.K <b>INTERNATIONAL</b><small>IMPORT · EXPORT · TRADE</small></span></a>
+<button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+<nav class="nav-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="divisions.html">Business Divisions</a><a href="products.html">Products</a><a href="trade.html">Import &amp; Export</a><a class="active nav-cta" href="contact.html">Contact Us ↗</a></nav>
+</div></header>
+<main>
+<section class="page-hero"><div class="container"><div class="eyebrow light"><i></i> BUSINESS ENQUIRIES</div><h1>Let's talk<br><em>business.</em></h1><p>Tell us whether you want to buy products or offer products for international trade. Choose the relevant enquiry type and share your requirements.</p></div></section>
+<section class="section-pad"><div class="container enquiry-wrap">
+<div class="enquiry-intro"><div class="eyebrow"><i></i> BUYER &amp; SELLER ENQUIRY CENTRE</div><h2>How can we <em>work together?</em></h2><p class="muted">Complete the form below. The enquiry will be prepared as a WhatsApp message for the K.K. International office you select.</p></div>
+<div class="enquiry-card">
+<form id="businessEnquiry" class="enquiry-form">
+<div class="enquiry-field full"><span class="enquiry-section-title">First, choose your enquiry type</span>
+<div class="enquiry-type">
+<label><input type="radio" name="enquiryType" value="buy" checked><strong>I want to buy</strong><small>For buyers looking to source or import products.</small></label>
+<label><input type="radio" name="enquiryType" value="sell"><strong>I want to sell</strong><small>For manufacturers, suppliers and exporters offering products.</small></label>
+</div></div>
+<div class="enquiry-divider"><div class="enquiry-section-title">Your contact details</div></div>
+<div class="enquiry-field"><label for="fullName">Full name *</label><input id="fullName" name="Full name" autocomplete="name" required></div>
+<div class="enquiry-field"><label for="company">Company / Business *</label><input id="company" name="Company" autocomplete="organization" required></div>
+<div class="enquiry-field"><label for="country">Your country *</label><select id="country" name="Your country" required><option value="">Select country</option><option>Pakistan</option><option>Malaysia</option><option>China</option><option>Brazil</option><option>Turkey</option><option>Indonesia</option><option>Afghanistan</option><option>Turkmenistan</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>United Kingdom</option><option>United States</option><option>Other / not listed</option></select></div>
+<div class="enquiry-field"><label for="email">Email address *</label><input id="email" name="Email" type="email" autocomplete="email" required></div>
+<div class="enquiry-field"><label for="phone">Phone / WhatsApp *</label><input id="phone" name="Phone / WhatsApp" type="tel" autocomplete="tel" required></div>
+<div class="enquiry-field"><label for="product">Product category *</label><select id="product" name="Product category" required><option value="">Select product category</option><option>Agricultural Products &amp; Fertilizers</option><option>Pesticides &amp; Fungicides</option><option>Textile Yarn</option><option>Finished Textile Products (Songket and woven fabrics)</option><option>Fresh Fruits</option><option>Rice &amp; Other Commodities (including safety matches)</option><option>Industrial Machinery</option><option>Other product / not listed</option></select></div>
+<div class="enquiry-field"><label for="quantity">Required quantity / estimated volume *</label><input id="quantity" name="Quantity / estimated volume" placeholder="e.g. 25 MT, 1 container, or monthly volume" required></div>
+<div id="buyFields" class="enquiry-divider"><div class="enquiry-section-title">Buying requirements</div></div>
+<div id="buyDestination" class="enquiry-field"><label for="destination">Destination country / port *</label><input id="destination" name="Destination country / port" placeholder="Country and port" required></div>
+<div id="buyShipping" class="enquiry-field"><label for="shipping">Shipping terms</label><select id="shipping" name="Shipping terms"><option value="">Select if known</option><option>FOB</option><option>CIF</option><option>Other</option><option>Not sure yet</option></select></div>
+<div id="buyPayment" class="enquiry-field"><label for="payment">Preferred payment method</label><select id="payment" name="Payment method"><option value="">Select if known</option><option>Bank transfer</option><option>Letter of Credit (L/C)</option><option>Other</option><option>Not sure yet</option></select></div>
+<div id="buyModel" class="enquiry-field"><label for="tradingModel">Trading arrangement</label><select id="tradingModel" name="Trading arrangement"><option value="">Select if known</option><option>Direct purchase / own account</option><option>Commission-based arrangement</option><option>Not sure yet</option></select></div>
+<div id="sellFields" class="enquiry-divider enquiry-hidden"><div class="enquiry-section-title">Selling / supply details</div></div>
+<div id="sellOrigin" class="enquiry-field enquiry-hidden"><label for="origin">Product origin country *</label><input id="origin" name="Product origin country" placeholder="Country of manufacture or supply"></div>
+<div id="sellCapacity" class="enquiry-field enquiry-hidden"><label for="capacity">Production / supply capacity *</label><input id="capacity" name="Production / supply capacity" placeholder="e.g. 500 MT per month"></div>
+<div id="sellMoq" class="enquiry-field enquiry-hidden"><label for="moq">Minimum order quantity (MOQ)</label><input id="moq" name="Minimum order quantity" placeholder="Enter MOQ and unit"></div>
+<div id="sellCerts" class="enquiry-field enquiry-hidden"><label for="certifications">Certifications / product documents</label><input id="certifications" name="Certifications / documents" placeholder="List available certificates or documents"></div>
+<div class="enquiry-field full"><label for="message">Product specifications and message *</label><textarea id="message" name="Message" placeholder="Please share specifications, grade, packing, destination, delivery schedule or any other details." required></textarea></div>
+<div class="enquiry-divider"><div class="enquiry-section-title">Where should we send your enquiry?</div><p class="muted">Choose the office you prefer to contact.</p></div>
+<div class="enquiry-office">
+<label><input type="radio" name="office" value="pakistan" checked><span><b>Pakistan office</b><br><small>+92 300 8637155</small></span></label>
+<label><input type="radio" name="office" value="malaysia"><span><b>Malaysia partner</b><br><small>+60 16 331 6958</small></span></label>
+</div>
+<div class="enquiry-submit"><button type="submit" class="btn btn-dark">Send Product Inquiry ↗</button><a class="btn btn-whatsapp" href="https://wa.me/923008637155" target="_blank" rel="noopener">WhatsApp Pakistan</a><a class="btn btn-whatsapp btn-whatsapp-my" href="https://wa.me/60163316958" target="_blank" rel="noopener">WhatsApp Malaysia</a></div>
+<p class="enquiry-note">Submitting opens WhatsApp with your enquiry details ready to send. Please review the message before sending. We aim to respond to enquiries within 1–2 business days.</p>
+</form>
+</div>
+<div class="contact-grid" style="margin-top:48px">
+<div><div class="eyebrow"><i></i> OUR CONTACT DETAILS</div><h2>Connect with our <em>offices.</em></h2><p class="muted">K.K. International is based in Multan, Pakistan. Pacific Mega Marketing SDN. BHD. is our marketing and trading partner in Malaysia.</p>
+<div class="contact-detail"><span>PAKISTAN OFFICE · K.K. INTERNATIONAL</span><b>XVIII-41/1/A/2, Chah Jatoo Wala, Vehari Road, Multan 60000, Pakistan</b><a href="tel:+923008637155">+92 300 8637155</a></div>
+<div class="contact-detail"><span>MALAYSIA MARKETING &amp; TRADING PARTNER · PACIFIC MEGA MARKETING SDN. BHD.</span><b>2758B, Tingkat 2, Jalan Changkat Per Taman, Permata, 53300 Kuala Lumpur, Malaysia</b><a href="tel:+60163316958">+60 16 331 6958</a></div>
+</div>
+<div class="contact-placeholder"><div class="line-icon">✆</div><h3>Prefer to contact us directly?</h3><p>Call or message either office for product, sourcing and trading enquiries.</p><div class="contact-actions"><a class="btn btn-dark" href="tel:+923008637155">Call Pakistan Office ↗</a><a class="btn btn-whatsapp" href="https://wa.me/923008637155" target="_blank" rel="noopener">WhatsApp Pakistan ↗</a><a class="btn btn-dark" href="tel:+60163316958">Call Malaysia Partner ↗</a><a class="btn btn-whatsapp btn-whatsapp-my" href="https://wa.me/60163316958" target="_blank" rel="noopener">WhatsApp Malaysia ↗</a></div></div>
+</div>
+</div></section></main>
+<footer class="footer"><div class="container"><div class="footer-showcase"><div class="footer-side footer-left"><span class="footer-kicker">WHAT WE DO</span><a href="divisions.html">Agriculture &amp; Crop Protection</a><a href="textile-industrial.html">Textile Trading</a><a href="food-commodities.html">Food &amp; Commodities</a><a href="global-sourcing.html">Global Sourcing &amp; Trade</a></div><div class="footer-center"><a class="footer-logo-link" href="index.html" aria-label="K.K. International home"><img src="assets/kk-globe-logo.png" alt="K.K. International globe logo"></a><div class="footer-center-name">K.K. <b>INTERNATIONAL</b></div><p>GLOBAL TRADE · TRUSTED PARTNERSHIPS</p><span class="footer-established">ESTABLISHED 2003</span></div><div class="footer-side footer-right"><span class="footer-kicker">CONNECT WITH US</span><a href="contact.html">Business Enquiries</a><a href="tel:+923008637155">Pakistan · +92 300 8637155</a><a href="tel:+60163316958">Malaysia · +60 16 331 6958</a><span>Multan, Pakistan</span></div></div><div class="footer-bottom"><span>© 2003 K.K. International. All Rights Reserved.</span><a href="about.html">Discover Our Company ↗</a></div></div></footer>
+<script src="assets/js/main.js"></script>
+<script>
+(function(){
+ const form=document.getElementById('businessEnquiry');
+ if(!form)return;
+ const buyIds=['buyFields','buyDestination','buyShipping','buyPayment','buyModel'];
+ const sellIds=['sellFields','sellOrigin','sellCapacity','sellMoq','sellCerts'];
+ const typeInputs=form.querySelectorAll('input[name="enquiryType"]');
+ function setType(type){
+  buyIds.forEach(id=>document.getElementById(id).classList.toggle('enquiry-hidden',type!=='buy'));
+  sellIds.forEach(id=>document.getElementById(id).classList.toggle('enquiry-hidden',type!=='sell'));
+  document.getElementById('destination').required=type==='buy';
+  document.getElementById('origin').required=type==='sell';
+  document.getElementById('capacity').required=type==='sell';
+ }
+ typeInputs.forEach(input=>input.addEventListener('change',()=>setType(input.value)));
+ setType('buy');
+ form.addEventListener('submit',function(event){
+  event.preventDefault();
+  if(!form.reportValidity())return;
+  const data=new FormData(form);
+  const type=data.get('enquiryType')==='buy'?'I WANT TO BUY':'I WANT TO SELL';
+  const office=data.get('office');
+  const phone=office==='malaysia'?'60163316958':'923008637155';
+  const lines=['BUSINESS ENQUIRY — K.K. INTERNATIONAL',type,''];
+  for(const [key,value] of data.entries()){
+   if(key==='enquiryType'||key==='office'||!String(value).trim())continue;
+   lines.push(key+': '+value);
+  }
+  lines.push('','Please contact me regarding this enquiry.');
+  window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(lines.join('\n')),'_blank','noopener');
+ });
+})();
+</script>
+</body></html>
