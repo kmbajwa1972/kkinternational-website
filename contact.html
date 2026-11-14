@@ -148,9 +148,19 @@
   waiting=false;
   submitButton.disabled=false;
   submitButton.textContent='Submit Product Inquiry';
-  if(event.data.status==='diagnostic-success'){
+  if(event.data.status==='diagnostic-result'){
    if(typeof turnstile!=='undefined')turnstile.reset();
-   status.textContent='CAPTCHA verified successfully. Diagnostic mode is active, so no enquiry email was sent. Please share the Apps Script execution log.';
+   const d=event.data.diagnostics||{};
+   status.textContent=[
+    'Diagnostic mode: no enquiry email was sent.',
+    'Token received: '+(d.tokenReceived?'Yes':'No')+' (length '+(d.tokenLength??'unknown')+').',
+    'Siteverify HTTP: '+(d.siteverifyHttpStatus??'not reached')+'.',
+    'Cloudflare accepted token: '+(d.siteverifySuccess?'Yes':'No')+'.',
+    'Hostname: '+(d.hostname||'not returned')+' — allowed: '+(d.hostnameAllowed?'Yes':'No')+'.',
+    'Action: '+(d.action||'not returned')+' — expected action matched: '+(d.actionAllowed?'Yes':'No')+'.',
+    'Final verification: '+(d.ok?'PASS':'FAIL')+'.',
+    'Error codes: '+((d.errorCodes||[]).join(', ')||'none')+'.'
+   ].join(' ');
   }else if(event.data.status==='success'){
    form.reset();
    if(typeof turnstile!=='undefined')turnstile.reset();
