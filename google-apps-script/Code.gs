@@ -7,8 +7,8 @@
  */
 
 const OFFICE_RECIPIENTS = Object.freeze({
-  pakistan: "kkimpakistan@gmail.com",
-  malaysia: "bajwa255@yahoo.com"
+  pakistan: "info@kkinternational.com.pk",
+  malaysia: "sales@kkinternational.com.pk"
 });
 
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
