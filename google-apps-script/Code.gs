@@ -51,19 +51,14 @@ function doPost(e) {
     const captchaToken = String(p["cf-turnstile-response"] || "").trim();
     const diagnosticOnly = PropertiesService.getScriptProperties()
       .getProperty("TURNSTILE_DIAGNOSTIC_ONLY") === "true";
+    const verification = verifyTurnstile_(captchaToken);
 
-    console.log("Turnstile form POST: tokenReceived=" + Boolean(captchaToken) +
-      ", tokenLength=" + captchaToken.length +
-      ", diagnosticOnly=" + diagnosticOnly);
-
-    if (!verifyTurnstile_(captchaToken)) {
-      throw new Error("CAPTCHA verification failed.");
-    }
-
-    // Diagnostic mode proves the real form token is accepted, without emailing anyone.
     if (diagnosticOnly) {
-      console.log("Turnstile diagnostic passed. Email intentionally not sent.");
-      return response_("diagnostic-success", requestId);
+      // Return safe validation metadata to the page; never expose token or secret.
+      return response_("diagnostic-result", requestId, verification);
+    }
+    if (!verification.ok) {
+      throw new Error("CAPTCHA verification failed.");
     }
 
     const office = String(p.office || "").toLowerCase();
@@ -119,16 +114,29 @@ function doPost(e) {
  */
 function verifyTurnstile_(token) {
   const cleanToken = String(token || "").trim();
+  const diagnostic = {
+    tokenReceived: Boolean(cleanToken),
+    tokenLength: cleanToken.length,
+    siteverifyHttpStatus: null,
+    siteverifySuccess: false,
+    errorCodes: [],
+    hostname: "",
+    hostnameAllowed: false,
+    action: "",
+    actionAllowed: false,
+    ok: false
+  };
+
   if (!cleanToken || cleanToken.length > 2048) {
-    console.warn("Turnstile token missing or outside expected length. length=" + cleanToken.length);
-    return false;
+    diagnostic.errorCodes = [cleanToken ? "token-too-long" : "missing-token"];
+    return diagnostic;
   }
 
   const secret = PropertiesService.getScriptProperties()
     .getProperty("TURNSTILE_SECRET_KEY");
   if (!secret) {
-    console.error("TURNSTILE_SECRET_KEY Script Property is missing.");
-    return false;
+    diagnostic.errorCodes = ["missing-server-secret"];
+    return diagnostic;
   }
 
   try {
@@ -138,30 +146,29 @@ function verifyTurnstile_(token) {
       muteHttpExceptions: true
     });
 
-    const httpCode = response.getResponseCode();
-    if (httpCode !== 200) {
-      console.error("Turnstile Siteverify HTTP status=" + httpCode);
-      return false;
+    diagnostic.siteverifyHttpStatus = response.getResponseCode();
+    if (diagnostic.siteverifyHttpStatus !== 200) {
+      diagnostic.errorCodes = ["siteverify-http-error"];
+      return diagnostic;
     }
 
     const result = JSON.parse(response.getContentText());
-    const hostname = String(result.hostname || "").toLowerCase();
-    const action = String(result.action || "");
-    const hostnameAllowed = TURNSTILE_ALLOWED_HOSTNAMES.indexOf(hostname) !== -1;
-    const actionAllowed = action === TURNSTILE_EXPECTED_ACTION;
+    diagnostic.siteverifySuccess = result.success === true;
+    diagnostic.errorCodes = result["error-codes"] || [];
+    diagnostic.hostname = String(result.hostname || "").toLowerCase();
+    diagnostic.hostnameAllowed =
+      TURNSTILE_ALLOWED_HOSTNAMES.indexOf(diagnostic.hostname) !== -1;
+    diagnostic.action = String(result.action || "");
+    diagnostic.actionAllowed = diagnostic.action === TURNSTILE_EXPECTED_ACTION;
+    diagnostic.ok = diagnostic.siteverifySuccess &&
+      diagnostic.hostnameAllowed && diagnostic.actionAllowed;
 
-    // Never log the token or secret; log only safe validation diagnostics.
-    console.log("Turnstile Siteverify: success=" + (result.success === true) +
-      ", errorCodes=" + JSON.stringify(result["error-codes"] || []) +
-      ", hostname=" + hostname +
-      ", hostnameAllowed=" + hostnameAllowed +
-      ", action=" + action +
-      ", actionAllowed=" + actionAllowed);
-
-    return result.success === true && hostnameAllowed && actionAllowed;
+    console.log("Turnstile diagnostic: " + JSON.stringify(diagnostic));
+    return diagnostic;
   } catch (err) {
     console.error("Turnstile verification request failed: " + String(err && err.message || err));
-    return false;
+    diagnostic.errorCodes = ["siteverify-request-error"];
+    return diagnostic;
   }
 }
 
@@ -172,14 +179,16 @@ function clean_(value) {
     .slice(0, 4000);
 }
 
-function response_(status, requestId) {
+function response_(status, requestId, diagnostics) {
   const safeRequestId = JSON.stringify(String(requestId || ""));
+  const safeDiagnostics = JSON.stringify(diagnostics || null).replace(/</g, "\\u003c");
   const html =
     '<!doctype html><html><body><script>' +
     'window.top.postMessage({' +
     'type:"kk-enquiry-result",' +
     'status:"' + status + '",' +
-    'requestId:' + safeRequestId +
+    'requestId:' + safeRequestId + ',' +
+    'diagnostics:' + safeDiagnostics +
     '}, "*");' +
     '</script></body></html>';
 
