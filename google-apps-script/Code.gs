@@ -48,8 +48,22 @@ function doPost(e) {
     }
 
     // Verify CAPTCHA before processing or sending any enquiry email.
-    if (!verifyTurnstile_(p["cf-turnstile-response"])) {
+    const captchaToken = String(p["cf-turnstile-response"] || "").trim();
+    const diagnosticOnly = PropertiesService.getScriptProperties()
+      .getProperty("TURNSTILE_DIAGNOSTIC_ONLY") === "true";
+
+    console.log("Turnstile form POST: tokenReceived=" + Boolean(captchaToken) +
+      ", tokenLength=" + captchaToken.length +
+      ", diagnosticOnly=" + diagnosticOnly);
+
+    if (!verifyTurnstile_(captchaToken)) {
       throw new Error("CAPTCHA verification failed.");
+    }
+
+    // Diagnostic mode proves the real form token is accepted, without emailing anyone.
+    if (diagnosticOnly) {
+      console.log("Turnstile diagnostic passed. Email intentionally not sent.");
+      return response_("diagnostic-success", requestId);
     }
 
     const office = String(p.office || "").toLowerCase();
@@ -105,7 +119,10 @@ function doPost(e) {
  */
 function verifyTurnstile_(token) {
   const cleanToken = String(token || "").trim();
-  if (!cleanToken || cleanToken.length > 2048) return false;
+  if (!cleanToken || cleanToken.length > 2048) {
+    console.warn("Turnstile token missing or outside expected length. length=" + cleanToken.length);
+    return false;
+  }
 
   const secret = PropertiesService.getScriptProperties()
     .getProperty("TURNSTILE_SECRET_KEY");
@@ -117,25 +134,31 @@ function verifyTurnstile_(token) {
   try {
     const response = UrlFetchApp.fetch(TURNSTILE_VERIFY_URL, {
       method: "post",
-      payload: {
-        secret: secret,
-        response: cleanToken
-      },
+      payload: { secret: secret, response: cleanToken },
       muteHttpExceptions: true
     });
 
-    if (response.getResponseCode() !== 200) {
-      console.error("Turnstile Siteverify returned HTTP " + response.getResponseCode());
+    const httpCode = response.getResponseCode();
+    if (httpCode !== 200) {
+      console.error("Turnstile Siteverify HTTP status=" + httpCode);
       return false;
     }
 
     const result = JSON.parse(response.getContentText());
     const hostname = String(result.hostname || "").toLowerCase();
     const action = String(result.action || "");
+    const hostnameAllowed = TURNSTILE_ALLOWED_HOSTNAMES.indexOf(hostname) !== -1;
+    const actionAllowed = action === TURNSTILE_EXPECTED_ACTION;
 
-    return result.success === true &&
-      TURNSTILE_ALLOWED_HOSTNAMES.indexOf(hostname) !== -1 &&
-      action === TURNSTILE_EXPECTED_ACTION;
+    // Never log the token or secret; log only safe validation diagnostics.
+    console.log("Turnstile Siteverify: success=" + (result.success === true) +
+      ", errorCodes=" + JSON.stringify(result["error-codes"] || []) +
+      ", hostname=" + hostname +
+      ", hostnameAllowed=" + hostnameAllowed +
+      ", action=" + action +
+      ", actionAllowed=" + actionAllowed);
+
+    return result.success === true && hostnameAllowed && actionAllowed;
   } catch (err) {
     console.error("Turnstile verification request failed: " + String(err && err.message || err));
     return false;
