@@ -148,7 +148,10 @@
   waiting=false;
   submitButton.disabled=false;
   submitButton.textContent='Submit Product Inquiry';
-  if(event.data.status==='success'){
+  if(event.data.status==='diagnostic-success'){
+   if(typeof turnstile!=='undefined')turnstile.reset();
+   status.textContent='CAPTCHA verified successfully. Diagnostic mode is active, so no enquiry email was sent. Please share the Apps Script execution log.';
+  }else if(event.data.status==='success'){
    form.reset();
    if(typeof turnstile!=='undefined')turnstile.reset();
    setType('buy');
