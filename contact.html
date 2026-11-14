@@ -35,6 +35,7 @@
 .enquiry-office input{accent-color:#263d32}
 .enquiry-submit{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
 .enquiry-submit .btn{border:0;cursor:pointer}
+.cf-turnstile{flex-basis:100%;min-height:65px}.enquiry-submit .btn:disabled{opacity:.65;cursor:not-allowed}
 .enquiry-note{font-size:12px;color:#68736d;line-height:1.6;margin:0}
 .contact-detail{margin-top:20px}
 .contact-detail span{display:block}
@@ -54,6 +55,7 @@
 <div class="enquiry-intro"><div class="eyebrow"><i></i> BUYER &amp; SELLER ENQUIRY CENTRE</div><h2>How can we <em>work together?</em></h2><p class="muted">Complete the form below. Your enquiry will be emailed directly to the office you select.</p></div>
 <div class="enquiry-card">
 <form id="businessEnquiry" class="enquiry-form" action="https://script.google.com/macros/s/AKfycbwUDnFgCk-92WgKjbgcmpKmwiScrgUpn7ZmILJ1_N96t8WsdxQyAv9TNZuVseDq5m37ag/exec" method="POST" target="kkEnquiryFrame">
+
 <div class="enquiry-field full"><span class="enquiry-section-title">First, choose your enquiry type</span>
 <div class="enquiry-type">
 <label><input type="radio" name="enquiryType" value="buy" checked><strong>I want to buy</strong><small>For buyers looking to source or import products.</small></label>
@@ -83,7 +85,7 @@
 <label><input type="radio" name="office" value="pakistan" checked><span><b>Pakistan office</b><br><small>+92 300 8637155</small></span></label>
 <label><input type="radio" name="office" value="malaysia"><span><b>Malaysia office</b><br><small>+60 16 331 6958</small></span></label>
 </div>
-<div class="enquiry-submit"><button type="submit" class="btn btn-dark">Submit Product Inquiry</button></div>
+<div class="enquiry-submit"><div class="cf-turnstile" data-sitekey="0x4AAAAAAGBAoLq9n0Xz1mi-" data-action="business-enquiry"></div><button type="submit" class="btn btn-dark">Submit Product Inquiry</button></div>
 <p id="enquiryStatus" class="enquiry-note" role="status" aria-live="polite">Your enquiry will be sent directly by email to the office you select. We aim to respond within 1–2 business days.</p>
 <input type="text" name="website" tabindex="-1" autocomplete="off" class="enquiry-hidden" aria-hidden="true">
 <input type="hidden" name="requestId" id="enquiryRequestId" value="">
@@ -99,6 +101,7 @@
 </div>
 </div></section></main>
 <footer class="footer"><div class="container"><div class="footer-showcase"><div class="footer-side footer-left"><span class="footer-kicker">WHAT WE DO</span><a href="divisions.html">Agriculture &amp; Crop Protection</a><a href="textile-industrial.html">Textile Trading</a><a href="food-commodities.html">Food &amp; Commodities</a><a href="global-sourcing.html">Global Sourcing &amp; Trade</a></div><div class="footer-center"><a class="footer-logo-link" href="index.html" aria-label="K.K. International home"><img src="assets/kk-globe-logo.png" alt="K.K. International globe logo"></a><div class="footer-center-name">K.K. <b>INTERNATIONAL</b></div><p>GLOBAL TRADE · TRUSTED PARTNERSHIPS</p><span class="footer-established">ESTABLISHED 2003</span><span class="footer-registration">Registration No. 1264239-8</span></div><div class="footer-side footer-right"><span class="footer-kicker">CONNECT WITH US</span><a href="contact.html">Business Enquiries</a><a href="tel:+923008637155">Pakistan · +92 300 8637155</a><a href="tel:+60163316958">Malaysia · +60 16 331 6958</a><span>Multan, Pakistan</span></div></div><div class="footer-bottom"><span>© <span id="year"></span> K.K. International. All Rights Reserved.</span><a href="about.html">Discover Our Company ↗</a></div></div></footer>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="assets/js/main.js"></script>
 <script>
 (function(){
@@ -124,6 +127,7 @@
  let responseTimer=null;
  form.addEventListener('submit',function(event){
   if(!form.reportValidity()){event.preventDefault();return;}
+  if(typeof turnstile==="undefined"||!turnstile.getResponse()){event.preventDefault();status.textContent="Please complete the security verification before submitting.";return;}
   waiting=true;
   activeRequestId=Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);
   document.getElementById("enquiryRequestId").value=activeRequestId;
@@ -146,10 +150,12 @@
   submitButton.textContent='Submit Product Inquiry';
   if(event.data.status==='success'){
    form.reset();
+   if(typeof turnstile!=='undefined')turnstile.reset();
    setType('buy');
    status.textContent='Thank you. Your enquiry has been submitted to the selected office. We will contact you as soon as possible.';
   }else{
-   status.textContent='We could not send your enquiry. Please check your details and try again, or contact the selected office directly.';
+   if(typeof turnstile!=='undefined')turnstile.reset();
+   status.textContent='Security verification or submission failed. Please complete the CAPTCHA again and retry.';
   }
  });
 })();
