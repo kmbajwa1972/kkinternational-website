@@ -284,3 +284,31 @@ html body *::after {
   .showcase-card[href="textile-products.html"] img{transform:scale(1.68);object-fit:cover;object-position:center}
   .showcase-card[href="textile-products.html"]:hover img{transform:scale(1.72)}
 }
+
+
+/* Trade page: reduce excessive vertical whitespace and internal padding */
+.trade-page .page-hero{padding:68px 0 72px}
+.trade-page .page-hero h1{margin-bottom:16px}
+.trade-page .page-hero p{margin-bottom:0}
+.trade-page .section-pad{padding:48px 0}
+.trade-page .eyebrow{margin-bottom:16px}
+.trade-page .two-col{gap:58px}
+.trade-page .value-grid{gap:28px}
+.trade-page .value-grid article{padding-top:16px}
+.trade-page .value-grid h3{margin:16px 0 7px}
+.trade-page .value-grid p{margin-bottom:0}
+.trade-page .values h2{margin-bottom:34px}
+@media(max-width:900px){
+  .trade-page .section-pad{padding:42px 0}
+  .trade-page .two-col{gap:32px}
+  .trade-page .value-grid{gap:24px}
+}
+@media(max-width:700px){
+  .trade-page .page-hero{padding:56px 0 60px}
+  .trade-page .section-pad{padding:34px 0}
+  .trade-page .two-col{gap:18px}
+  .trade-page .values h2{margin-bottom:26px}
+  .trade-page .value-grid{gap:20px}
+  .trade-page .value-grid article{padding-top:14px}
+  .trade-page .value-grid h3{margin:12px 0 6px}
+}
