@@ -5,6 +5,8 @@ Public ChatGPT app project for international trade workflows.
 ## Current scope (MVP)
 
 - K.K International company profile and trade categories
+- MCP Apps interface resource linked to all public tools
+- Standalone interface preview at `web/trade-assistant.html`
 - Import landed-cost calculator using user-supplied duty/tax values
 - Supplier RFQ drafting (draft only; never sends email)
 - K.K International inquiry drafting (draft only; no personal data is transmitted or stored)
@@ -30,10 +32,15 @@ npm run dev
 - Health: http://localhost:3000/health
 - MCP endpoint: http://localhost:3000/mcp
 
+## Automated tests
+
+The Node test runner checks landed-cost arithmetic, rounding, and supplier RFQ draft content. GitHub Actions runs the type-check and test suite on changes to this branch.
+
 ## Build check
 
 ```bash
 npm run build
+npm test
 ```
 
 ## Deployment
