@@ -58,7 +58,7 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
 
   const resource = await client.readResource({ uri: "ui://kk-international/trade-assistant-v1.html" });
   assert.ok(resource.contents.some((item) =>
-    item.text?.includes("K.K International Trade Assistant")
+    ("text" in item && item.text.includes("K.K International Trade Assistant"))
   ));
 });
 
