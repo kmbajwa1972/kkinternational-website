@@ -68,7 +68,7 @@ function createServer() {
     })
   );
 
-  server.registerTool(
+  registerAppTool(server,
     "list_trade_services",
     {
       title: "Trade services and product categories",
@@ -102,7 +102,7 @@ function createServer() {
     }
   );
 
-  server.registerTool(
+  registerAppTool(server,
     "calculate_landed_cost",
     {
       title: "Calculate import landed cost",
@@ -139,7 +139,7 @@ function createServer() {
     }
   );
 
-  server.registerTool(
+  registerAppTool(server,
     "draft_supplier_rfq",
     {
       title: "Draft supplier RFQ",
@@ -167,7 +167,7 @@ function createServer() {
     }
   );
 
-  server.registerTool(
+  registerAppTool(server,
     "prepare_business_inquiry",
     {
       title: "Prepare an inquiry for K.K International",
