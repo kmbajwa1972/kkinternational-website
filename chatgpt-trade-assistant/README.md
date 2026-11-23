@@ -1,11 +1,19 @@
 # K.K International Trade Assistant
 
-Public ChatGPT app project for international trade workflows.
+A platform-independent Model Context Protocol (MCP) service for international trade workflows, designed to connect to **ChatGPT and Claude** through their supported MCP integration paths.
+
+## Platform compatibility
+
+- **Shared MCP backend:** trade tools and business logic are exposed through the standard MCP protocol, rather than being implemented as ChatGPT-only features.
+- **ChatGPT:** includes an MCP Apps interface resource for supported ChatGPT app experiences.
+- **Claude:** can use the same MCP server and core tools through Claude's supported remote MCP connector/integration experience. The ChatGPT-specific embedded interface is optional; Claude can call the tools without it.
+- **One service, one toolset:** both clients use the same server-side calculations, drafting and research-planning functions.
+- **Client differences:** each platform controls its own connection setup, authentication flow, UI rendering and feature availability. We will test ChatGPT and Claude separately before public release.
 
 ## Current scope (MVP)
 
 - K.K International company profile and trade categories
-- MCP Apps interface resource linked to all public tools
+- MCP Apps interface resource for clients that support it
 - Standalone interface preview at `web/trade-assistant.html`
 - Import landed-cost calculator using user-supplied duty/tax values
 - Supplier RFQ drafting (draft only; never sends email)
@@ -14,14 +22,23 @@ Public ChatGPT app project for international trade workflows.
 - Supplier quotation comparison from user-provided offers
 - Buyer and target-market research planning
 - MCP Streamable HTTP endpoint at `/mcp`
-- CORS preflight support for ChatGPT app connectivity
-- Basic per-IP request rate limiting
+- CORS preflight support and basic per-IP request rate limiting
 
-## Product roadmap\n\n**Stage 1 – Trade Assistant:** company profile, trade services, RFQ drafting, inquiry drafting, landed-cost estimates and documentation guidance.\n\n**Stage 2 – Global Sourcing Assistant:** supplier research planning, buyer/market research planning, supplier evidence checklists and quotation comparison. Live supplier and buyer discovery must use permitted public sources or authorized platform APIs; the research tools in this MVP prepare searches and organize evidence but do not claim to have searched or verified live listings.\n\n**Out of scope:** a standalone B2B marketplace with public buyer/supplier accounts, a supplier bidding network, payments or order management.\n\n## Architecture and privacy boundary
+## Product roadmap
+
+**Stage 1 – Trade Assistant:** company profile, trade services, RFQ drafting, inquiry drafting, landed-cost estimates and documentation guidance.
+
+**Stage 2 – Global Sourcing Assistant:** supplier research, buyer/market research, supplier evidence checklists and quotation comparison. Live supplier and buyer discovery must use permitted public sources or authorized APIs. The research tools in this MVP currently prepare searches and organize evidence; they do not claim to have searched or verified live listings.
+
+**Out of scope:** a standalone B2B marketplace with public buyer/supplier accounts, a supplier bidding network, payments or order management.
+
+## Architecture and privacy boundary
 
 This public MCP service is separate from the private K.K International Trade Desk. It must not read private customer, supplier, staff, payment, shipment, Gmail, or inquiry records. No private Trade Desk API credentials belong in this project.
 
-The first release is deliberately read-only / draft-only. Stage 2 tools prepare research plans and compare user-supplied evidence; they do not scrape marketplaces, access private supplier accounts, publish RFQs on third-party platforms, or contact suppliers. Any future inquiry submission or CRM write action must have explicit user consent, server-side validation, rate limiting, and a separate protected endpoint.
+The core tool layer must remain client-neutral. Do not make core trade functionality depend on ChatGPT-specific UI metadata or rendering. MCP Apps UI is an optional presentation layer for compatible clients; clients without that UI capability must still be able to use the MCP tools.
+
+The first release is deliberately read-only / draft-only. Stage 2 tools prepare research plans and compare user-supplied evidence; they do not scrape third-party platforms, access private supplier accounts, publish RFQs, or contact suppliers. Alibaba.com and Made-in-China.com were discussed only as examples of trade workflows; this project does not aim to copy either service or require integration with them. Any future inquiry submission or CRM write action must have explicit user consent, server-side validation, rate limiting, and a separate protected endpoint.
 
 ## Run locally
 
@@ -37,7 +54,7 @@ npm run dev
 
 ## Automated tests
 
-The Node test runner checks landed-cost arithmetic, rounding, and supplier RFQ draft content. GitHub Actions runs the type-check and test suite on changes to this branch.
+The Node test runner checks landed-cost arithmetic, rounding, RFQ draft content and the research/quotation logic. GitHub Actions runs the type-check and test suite on changes to this branch.
 
 ## Build check
 
@@ -48,22 +65,19 @@ npm test
 
 ## Deployment
 
-Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint and `APP_DOMAIN` to the app UI origin (for example, `https://trade-assistant.example.com`). Production startup fails if the host allowlist is missing. Do not publish the endpoint until it has passed MCP Inspector and ChatGPT testing.
+Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint and `APP_DOMAIN` to the app UI origin when using the embedded interface. Production startup fails if the host allowlist is missing.
 
-## Marketplace integration research
-
-- **Alibaba.com:** Its Open Platform requires developer registration, application review/approval, App Key and App Secret, API permission requests, and seller authorization for seller business data. We will only use endpoints and accounts for which K.K International receives authorization. See the [official Open Platform guide](https://openapi.alibaba.com/doc/doc.htm).
-- **Made-in-China.com:** Its official buyer-facing Easy Sourcing workflow accepts sourcing requests, matches suppliers, and returns quotations through its own portal. We have not identified a public official API for external supplier-search/RFQ submission in the reviewed official documentation. We will use the official portal and permitted public information unless Made-in-China grants an integration route. See [Easy Sourcing for buyers](https://sourcing.made-in-china.com/tailored-sourcing-service/for-buyers.html) and [official help](https://m.made-in-china.com/html/forApp/helpcenter/en.html).
-- No third-party marketplace scraping, account automation, RFQ posting, or supplier messaging is enabled in this MVP.
+Before release, validate the endpoint with the MCP Inspector and test it independently from ChatGPT and Claude. Verify tool discovery, input validation, structured outputs, error handling, and client connection instructions in each platform. Do not assume that an interface resource supported by one client will render in the other.
 
 ## Public listing preparation
 
 Before public submission, provide:
 - Verified publisher identity
 - Public website, support, privacy policy, and terms URLs
-- App logo and listing metadata
+- App logo and listing metadata where required
 - Positive and negative test cases
 - Stable production MCP endpoint
+- Separate connection and compatibility tests for ChatGPT and Claude
 - Security, privacy, rate-limit, and error-handling review
 
 ## Company profile facts
