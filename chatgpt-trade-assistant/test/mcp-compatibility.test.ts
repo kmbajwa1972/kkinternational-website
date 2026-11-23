@@ -56,6 +56,73 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
   assert.equal(profile.isError, false);
   assert.equal((profile.structuredContent as { company: string }).company, "K.K International");
 
+  const services = await client.callTool({ name: "list_trade_services", arguments: {} });
+  assert.equal(services.isError, false);
+
+  const rfq = await client.callTool({
+    name: "draft_supplier_rfq",
+    arguments: {
+      product: "Cotton yarn",
+      specification: "30/1 combed cotton",
+      quantity: "10 MT",
+      destinationCountry: "Pakistan"
+    }
+  });
+  assert.equal(rfq.isError, false);
+  assert.match((rfq.structuredContent as { draft: string }).draft, /10 MT/);
+
+  const inquiry = await client.callTool({
+    name: "prepare_business_inquiry",
+    arguments: {
+      name: "Compatibility Test",
+      email: "compatibility@example.com",
+      country: "Pakistan",
+      inquiryType: "Buyer",
+      product: "Rice",
+      message: "Please share the export specifications and indicative terms."
+    }
+  });
+  assert.equal(inquiry.isError, false);
+  assert.equal((inquiry.structuredContent as { recipient: string }).recipient, "info@kkinternational.com.pk");
+
+  const supplierResearch = await client.callTool({
+    name: "build_supplier_research_brief",
+    arguments: { product: "Cotton yarn", targetCountry: "China" }
+  });
+  assert.equal(supplierResearch.isError, false);
+
+  const quoteComparison = await client.callTool({
+    name: "compare_supplier_quotes",
+    arguments: {
+      quotes: [{
+        supplierName: "Example Supplier",
+        country: "China",
+        productSpecification: "Cotton yarn 30/1"
+      }]
+    }
+  });
+  assert.equal(quoteComparison.isError, false);
+
+  const buyerResearch = await client.callTool({
+    name: "build_buyer_market_research_brief",
+    arguments: { product: "Basmati rice", targetMarket: "Malaysia" }
+  });
+  assert.equal(buyerResearch.isError, false);
+
+  const invalidCalculation = await client.callTool({
+    name: "calculate_landed_cost",
+    arguments: {
+      goodsValue: -1,
+      freight: 0,
+      insurance: 0,
+      customsDuty: 0,
+      taxes: 0,
+      otherCharges: 0,
+      currency: "USD"
+    }
+  });
+  assert.equal(invalidCalculation.isError, true);
+
   const resource = await client.readResource({ uri: "ui://kk-international/trade-assistant-v1.html" });
   assert.ok(resource.contents.some((item) =>
     ("text" in item && item.text.includes("K.K International Trade Assistant"))
