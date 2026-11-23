@@ -3,8 +3,10 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
 import rateLimit from "express-rate-limit";
+import { registerAppResource, registerAppTool, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 
 const PORT = Number(process.env.PORT || 3000);
+const TRADE_ASSISTANT_HTML = "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>K.K International Trade Assistant</title>\n<style>\n:root{color-scheme:light dark;--ink:var(--color-text-primary,#18222d);--muted:var(--color-text-secondary,#64748b);--line:var(--color-border,#dce2e8);--panel:var(--color-card,#fff);--accent:#1d5d54;--soft:#eaf3f0}\n*{box-sizing:border-box}body{margin:0;padding:22px;font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:transparent}\n.wrap{max-width:850px;margin:auto}.hero{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--soft),var(--panel))}\n.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent)}h1{font-size:clamp(24px,4vw,34px);line-height:1.15;margin:8px 0}p{margin:8px 0;color:var(--muted)}\n.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:12px;color:var(--muted);background:var(--panel)}\nh2{font-size:17px;margin:24px 0 10px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}\n.card{border:1px solid var(--line);border-radius:13px;padding:14px;background:var(--panel)}.card strong{display:block;margin-bottom:4px}.card p{font-size:13px;margin:0}\n.footer{border-top:1px solid var(--line);margin-top:20px;padding-top:14px;font-size:12px;color:var(--muted)}a{color:var(--accent)}\n</style>\n</head>\n<body><main class=\"wrap\">\n<section class=\"hero\">\n<div class=\"eyebrow\">International trade · Since 2003</div>\n<h1>K.K International Trade Assistant</h1>\n<p>Practical support for sourcing, import and export planning, RFQ preparation and trade-cost calculations.</p>\n<div class=\"meta\"><span class=\"pill\">Pakistan office</span><span class=\"pill\">Malaysia marketing partner</span><span class=\"pill\">Independent public assistant</span></div>\n</section>\n<h2>What you can do</h2>\n<section class=\"grid\">\n<div class=\"card\"><strong>Supplier RFQs</strong><p>Prepare a clear request for quotation with product specifications, quantity, destination and trade terms.</p></div>\n<div class=\"card\"><strong>Import cost estimates</strong><p>Calculate a landed-cost estimate from values and charges you provide. Official duties and taxes are never guessed.</p></div>\n<div class=\"card\"><strong>Trade planning</strong><p>Organize sourcing requirements, buyer research questions and import/export documentation checklists.</p></div>\n<div class=\"card\"><strong>Company information</strong><p>Learn about K.K International’s stated business categories, markets and contact details.</p></div>\n</section>\n<h2>Business categories</h2>\n<section class=\"grid\">\n<div class=\"card\"><strong>Imports</strong><p>Textile yarn · Industrial machinery · Agricultural products · Pesticides and fungicides</p></div>\n<div class=\"card\"><strong>Exports</strong><p>Textile products · Rice · Fresh fruits · Safety matches</p></div>\n</section>\n<div class=\"footer\">K.K International is a sole proprietorship. The Malaysia office is a corporate marketing partner, not a subsidiary. This public assistant is separate from the company’s private Trade Desk. Drafts are not sent automatically. <a href=\"https://kkinternational.com.pk\" target=\"_blank\" rel=\"noopener noreferrer\">Visit the company website</a> · <a href=\"mailto:info@kkinternational.com.pk\">Contact</a></div>\n</main></body></html>";
 const COMPANY = {
   name: "K.K International",
   website: "https://kkinternational.com.pk",
@@ -27,10 +29,11 @@ function createServer() {
     }
   );
 
-  server.registerTool(
+  registerAppTool(server,
     "get_company_profile",
     {
       title: "K.K International company profile",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
       description: "Use when a user asks about K.K International, its business areas, trading markets, or how to contact the company.",
       inputSchema: {},
       outputSchema: z.object({
@@ -68,6 +71,7 @@ function createServer() {
     "list_trade_services",
     {
       title: "Trade services and product categories",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
       description: "Use when users ask what trade services or product categories K.K International works with.",
       inputSchema: {},
       outputSchema: z.object({
@@ -101,6 +105,7 @@ function createServer() {
     "calculate_landed_cost",
     {
       title: "Calculate import landed cost",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
       description: "Calculate an estimated landed cost from user-supplied values. The user must provide duty, tax, freight, insurance and other charges; do not guess official tax or duty rates.",
       inputSchema: {
         goodsValue: z.number().nonnegative().describe("Total customs or invoice value of the goods in the selected currency"),
@@ -148,6 +153,7 @@ function createServer() {
     "draft_supplier_rfq",
     {
       title: "Draft supplier RFQ",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
       description: "Prepare a professional request for quotation to a potential supplier. This creates a draft only and does not send email or contact the supplier.",
       inputSchema: {
         product: z.string().min(2).max(200),
@@ -197,6 +203,7 @@ function createServer() {
     "prepare_business_inquiry",
     {
       title: "Prepare an inquiry for K.K International",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
       description: "Prepare an inquiry draft addressed to K.K International. It does not send email or store personal information.",
       inputSchema: {
         name: z.string().min(2).max(120),
@@ -244,6 +251,14 @@ function createServer() {
     }
   );
 
+  const resourceUri = "ui://kk-international/trade-assistant-v1.html";
+  registerAppResource(server, "K.K International Trade Assistant", resourceUri, {
+    mimeType: RESOURCE_MIME_TYPE,
+    _meta: { ui: { prefersBorder: true } }
+  }, async () => ({
+    contents: [{ uri: resourceUri, mimeType: RESOURCE_MIME_TYPE, text: TRADE_ASSISTANT_HTML }]
+  }));
+
   return server;
 }
 
@@ -251,7 +266,7 @@ const app = express();
 app.disable("x-powered-by");
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Mcp-Session-Id, Mcp-Protocol-Version, Last-Event-ID");
   res.setHeader("Access-Control-Expose-Headers", "Mcp-Session-Id, Mcp-Protocol-Version");
   if (req.method === "OPTIONS") return res.sendStatus(204);
