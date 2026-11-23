@@ -353,6 +353,8 @@ function createServer() {
 export function createHttpApp() {
   const app = express();
   app.disable("x-powered-by");
+  // Render runs behind a trusted reverse proxy; enable one proxy hop so rate limiting can safely identify client IPs.
+  app.set("trust proxy", 1);
   if (process.env.NODE_ENV === "production" && ALLOWED_HOSTS.length === 0) {
     throw new Error("Set ALLOWED_HOSTS to the exact public hostname(s) before production deployment.");
   }
