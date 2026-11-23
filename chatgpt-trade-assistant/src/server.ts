@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
@@ -406,7 +406,7 @@ export function createHttpApp() {
 
   app.get("/health", (_req, res) => res.status(200).json({ ok: true }));
 
-  const handleMcpRequest = async (req: express.Request, res: express.Response) => {
+  const handleMcpRequest = async (req: Request, res: Response) => {
     const server = createServer();
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
