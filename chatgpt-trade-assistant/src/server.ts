@@ -4,7 +4,7 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { z } from "zod";
 import rateLimit from "express-rate-limit";
 import { registerAppResource, registerAppTool, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
-import { calculateLandedCost, buildSupplierRfq } from "./trade-logic.js";
+import { calculateLandedCost, buildSupplierRfq, buildSupplierResearchBrief, compareSupplierQuotes, buildBuyerMarketResearchBrief } from "./trade-logic.js";
 
 const PORT = Number(process.env.PORT || 3000);
 const ALLOWED_HOSTS = (process.env.ALLOWED_HOSTS || "").split(",").map((host) => host.trim().toLowerCase()).filter(Boolean);
@@ -217,6 +217,118 @@ function createServer() {
           privacyNote: "This draft was generated for the user. It has not been transmitted or stored by K.K International."
         },
         content: [{ type: "text", text: `Inquiry draft prepared for ${COMPANY.contactEmail}. Nothing has been sent.` }]
+      };
+    }
+  );
+
+
+  registerAppTool(server,
+    "build_supplier_research_brief",
+    {
+      title: "Plan a supplier search",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
+      description: "Create a targeted supplier-research plan and verification checklist. This tool does not itself search the live web or verify suppliers.",
+      inputSchema: {
+        product: z.string().min(2).max(200),
+        specification: z.string().max(1000).optional(),
+        targetCountry: z.string().max(100).optional(),
+        quantity: z.string().max(100).optional(),
+        supplierType: z.enum(["manufacturer", "trading_company", "either"]).default("either")
+      },
+      outputSchema: z.object({
+        researchSubject: z.string(),
+        suggestedSearchQuery: z.string(),
+        filters: z.object({ targetCountry: z.string(), supplierType: z.string(), quantity: z.string() }),
+        evidenceToCollect: z.array(z.string()),
+        verificationWarnings: z.array(z.string()),
+        note: z.string()
+      }),
+      annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false }
+    },
+    async (input) => {
+      const result = buildSupplierResearchBrief(input);
+      return {
+        structuredContent: result,
+        content: [{ type: "text", text: "Supplier research plan prepared. Use live web research to find candidates, then verify each supplier independently." }]
+      };
+    }
+  );
+
+  registerAppTool(server,
+    "compare_supplier_quotes",
+    {
+      title: "Compare supplier quotations",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
+      description: "Organize and compare supplier quotations supplied by the user. It flags missing information and does not independently verify suppliers.",
+      inputSchema: {
+        quotes: z.array(z.object({
+          supplierName: z.string().min(1).max(180),
+          country: z.string().min(2).max(100),
+          productSpecification: z.string().min(2).max(1000),
+          unitPrice: z.number().nonnegative().optional(),
+          currency: z.string().min(3).max(8).optional(),
+          moq: z.string().max(100).optional(),
+          incoterm: z.string().max(80).optional(),
+          leadTime: z.string().max(100).optional(),
+          certificates: z.array(z.string().max(150)).max(20).optional(),
+          evidenceUrl: z.string().url().optional(),
+          notes: z.string().max(1000).optional()
+        })).min(1).max(20)
+      },
+      outputSchema: z.object({
+        suppliers: z.array(z.object({
+          supplierName: z.string(),
+          country: z.string(),
+          productSpecification: z.string(),
+          unitPrice: z.number().optional(),
+          currency: z.string().optional(),
+          moq: z.string().optional(),
+          incoterm: z.string().optional(),
+          leadTime: z.string().optional(),
+          certificates: z.array(z.string()).optional(),
+          evidenceUrl: z.string().optional(),
+          notes: z.string().optional(),
+          missingInformation: z.array(z.string())
+        })),
+        comparisonNote: z.string()
+      }),
+      annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false }
+    },
+    async (input) => {
+      const result = compareSupplierQuotes(input.quotes);
+      return {
+        structuredContent: result,
+        content: [{ type: "text", text: "Supplier quotation comparison prepared from user-provided information. Supplier claims and documents still require independent verification." }]
+      };
+    }
+  );
+
+  registerAppTool(server,
+    "build_buyer_market_research_brief",
+    {
+      title: "Plan buyer and market research",
+      _meta: { ui: { resourceUri: "ui://kk-international/trade-assistant-v1.html" } },
+      description: "Prepare search queries and an evidence checklist for researching buyers, importers and distributors in a target market. This tool does not itself search the live web.",
+      inputSchema: {
+        product: z.string().min(2).max(200),
+        targetMarket: z.string().min(2).max(100),
+        buyerType: z.string().max(150).optional()
+      },
+      outputSchema: z.object({
+        researchSubject: z.string(),
+        targetMarket: z.string(),
+        buyerType: z.string(),
+        suggestedSearchQueries: z.array(z.string()),
+        evidenceToCollect: z.array(z.string()),
+        note: z.string()
+      }),
+      annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false }
+    },
+    async (input) => {
+      const result = buildBuyerMarketResearchBrief(input);
+      return {
+        structuredContent: result,
+        content: [{ type: "text", text: "Buyer and market research plan prepared. Verify every prospective buyer using current public sources." }]
       };
     }
   );
