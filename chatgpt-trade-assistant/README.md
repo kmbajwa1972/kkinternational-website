@@ -58,7 +58,7 @@ The service entry point is `src/index.ts`; `src/server.ts` exports the Express a
 
 ## Automated tests
 
-The Node test runner checks landed-cost arithmetic, rounding, RFQ draft content and the research/quotation logic. GitHub Actions runs the type-check and test suite on changes to this branch.
+The Node test runner checks landed-cost arithmetic, RFQ and research logic, and the actual Streamable HTTP endpoint using the official MCP TypeScript client. It verifies initialization, discovery of all eight tools, calls to all eight tools, invalid-input handling, the optional UI resource, and browser preflight behavior. GitHub Actions runs the type-check and test suite on changes to this branch. See [Client Compatibility and Release Test Plan](docs/CLIENT-COMPATIBILITY.md) for manual ChatGPT and Claude connection checks.
 
 ## Build check
 
