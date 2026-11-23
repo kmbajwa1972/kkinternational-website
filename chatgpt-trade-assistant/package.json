@@ -7,9 +7,9 @@
     "node": ">=22.6.0"
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc --noEmit",
-    "start": "tsx src/server.ts",
+    "start": "tsx src/index.ts",
     "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
