@@ -14,6 +14,7 @@ const TRADE_ASSISTANT_HTML = "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta
 const COMPANY = {
   name: "K.K International",
   website: "https://kkinternational.com.pk",
+  logo: "https://kkinternational.com.pk/assets/kk-globe-logo.png",
   contactEmail: "info@kkinternational.com.pk",
   businessSince: 2003,
   structure: "Sole proprietorship",
@@ -43,6 +44,7 @@ function createServer() {
       outputSchema: z.object({
         company: z.string(),
         website: z.string(),
+        logo: z.string().url(),
         contactEmail: z.string(),
         businessSince: z.number(),
         structure: z.string(),
@@ -58,6 +60,7 @@ function createServer() {
       structuredContent: {
         company: COMPANY.name,
         website: COMPANY.website,
+        logo: COMPANY.logo,
         contactEmail: COMPANY.contactEmail,
         businessSince: COMPANY.businessSince,
         structure: COMPANY.structure,
