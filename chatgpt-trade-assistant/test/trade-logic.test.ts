@@ -31,3 +31,32 @@ test("RFQ draft includes core request details and is not sent", () => {
   assert.match(result.draft, /Preferred Incoterm: CIF Karachi/);
   assert.match(result.draft, /quotation validity/);
 });
+
+
+import { buildSupplierResearchBrief, compareSupplierQuotes, buildBuyerMarketResearchBrief } from "../src/trade-logic.js";
+
+test("supplier research brief creates targeted query and verification checklist", () => {
+  const result = buildSupplierResearchBrief({
+    product: "textile yarn", specification: "30/1 cotton combed",
+    targetCountry: "China", quantity: "20 MT", supplierType: "manufacturer"
+  });
+  assert.match(result.suggestedSearchQuery, /manufacturer factory/);
+  assert.match(result.suggestedSearchQuery, /China/);
+  assert.ok(result.evidenceToCollect.length >= 5);
+  assert.match(result.note, /not a live supplier search/);
+});
+
+test("quote comparison identifies missing commercial and verification details", () => {
+  const result = compareSupplierQuotes([{
+    supplierName: "Sample supplier", country: "China", productSpecification: "Cotton yarn 30/1"
+  }]);
+  assert.ok(result.suppliers[0].missingInformation.includes("Minimum order quantity"));
+  assert.ok(result.suppliers[0].missingInformation.includes("Source/evidence URL"));
+  assert.match(result.comparisonNote, /Do not rank suppliers on price alone/);
+});
+
+test("buyer market brief generates focused market research queries", () => {
+  const result = buildBuyerMarketResearchBrief({ product: "basmati rice", targetMarket: "Malaysia" });
+  assert.equal(result.targetMarket, "Malaysia");
+  assert.ok(result.suggestedSearchQueries.some((query) => query.includes("importers")));
+});
