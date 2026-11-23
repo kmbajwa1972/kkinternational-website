@@ -65,9 +65,9 @@ npm test
 
 ## Deployment
 
-Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint and `APP_DOMAIN` to the app UI origin when using the embedded interface. Production startup fails if the host allowlist is missing.
+Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint, `ALLOWED_ORIGINS` to the exact trusted browser origins (comma-separated, no wildcard), and `APP_DOMAIN` to the app UI origin when using the embedded interface. Production startup fails if either allowlist is missing. Requests without an `Origin` header remain available for server-to-server MCP clients; requests with an unlisted browser origin are rejected.
 
-Before release, validate the endpoint with the MCP Inspector and test it independently from ChatGPT and Claude. Verify tool discovery, input validation, structured outputs, error handling, and client connection instructions in each platform. Do not assume that an interface resource supported by one client will render in the other.
+Before release, configure the trusted origins using the current platform requirements, validate the endpoint with the MCP Inspector and test it independently from ChatGPT and Claude. Verify tool discovery, input validation, structured outputs, error handling, and client connection instructions in each platform. Do not assume that an interface resource supported by one client will render in the other.
 
 ## Public listing preparation
 
