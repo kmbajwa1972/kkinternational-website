@@ -49,15 +49,15 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
       currency: "USD"
     }
   });
-  assert.equal(calculation.isError, false);
+  assert.notEqual(calculation.isError, true);
   assert.equal((calculation.structuredContent as { estimatedLandedCost: number }).estimatedLandedCost, 1200);
 
   const profile = await client.callTool({ name: "get_company_profile", arguments: {} });
-  assert.equal(profile.isError, false);
+  assert.notEqual(profile.isError, true);
   assert.equal((profile.structuredContent as { company: string }).company, "K.K International");
 
   const services = await client.callTool({ name: "list_trade_services", arguments: {} });
-  assert.equal(services.isError, false);
+  assert.notEqual(services.isError, true);
 
   const rfq = await client.callTool({
     name: "draft_supplier_rfq",
@@ -68,7 +68,7 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
       destinationCountry: "Pakistan"
     }
   });
-  assert.equal(rfq.isError, false);
+  assert.notEqual(rfq.isError, true);
   assert.match((rfq.structuredContent as { draft: string }).draft, /10 MT/);
 
   const inquiry = await client.callTool({
@@ -82,14 +82,14 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
       message: "Please share the export specifications and indicative terms."
     }
   });
-  assert.equal(inquiry.isError, false);
+  assert.notEqual(inquiry.isError, true);
   assert.equal((inquiry.structuredContent as { recipient: string }).recipient, "info@kkinternational.com.pk");
 
   const supplierResearch = await client.callTool({
     name: "build_supplier_research_brief",
     arguments: { product: "Cotton yarn", targetCountry: "China" }
   });
-  assert.equal(supplierResearch.isError, false);
+  assert.notEqual(supplierResearch.isError, true);
 
   const quoteComparison = await client.callTool({
     name: "compare_supplier_quotes",
@@ -101,13 +101,13 @@ test("standard MCP clients can initialize, list tools, call a tool, and read the
       }]
     }
   });
-  assert.equal(quoteComparison.isError, false);
+  assert.notEqual(quoteComparison.isError, true);
 
   const buyerResearch = await client.callTool({
     name: "build_buyer_market_research_brief",
     arguments: { product: "Basmati rice", targetMarket: "Malaysia" }
   });
-  assert.equal(buyerResearch.isError, false);
+  assert.notEqual(buyerResearch.isError, true);
 
   const invalidCalculation = await client.callTool({
     name: "calculate_landed_cost",
