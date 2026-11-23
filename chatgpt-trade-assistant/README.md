@@ -50,6 +50,12 @@ npm test
 
 Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint and `APP_DOMAIN` to the app UI origin (for example, `https://trade-assistant.example.com`). Production startup fails if the host allowlist is missing. Do not publish the endpoint until it has passed MCP Inspector and ChatGPT testing.
 
+## Marketplace integration research
+
+- **Alibaba.com:** Its Open Platform requires developer registration, application review/approval, App Key and App Secret, API permission requests, and seller authorization for seller business data. We will only use endpoints and accounts for which K.K International receives authorization. See the [official Open Platform guide](https://openapi.alibaba.com/doc/doc.htm).
+- **Made-in-China.com:** Its official buyer-facing Easy Sourcing workflow accepts sourcing requests, matches suppliers, and returns quotations through its own portal. We have not identified a public official API for external supplier-search/RFQ submission in the reviewed official documentation. We will use the official portal and permitted public information unless Made-in-China grants an integration route. See [Easy Sourcing for buyers](https://sourcing.made-in-china.com/tailored-sourcing-service/for-buyers.html) and [official help](https://m.made-in-china.com/html/forApp/helpcenter/en.html).
+- No third-party marketplace scraping, account automation, RFQ posting, or supplier messaging is enabled in this MVP.
+
 ## Public listing preparation
 
 Before public submission, provide:
