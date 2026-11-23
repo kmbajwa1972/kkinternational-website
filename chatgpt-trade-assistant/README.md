@@ -10,15 +10,18 @@ Public ChatGPT app project for international trade workflows.
 - Import landed-cost calculator using user-supplied duty/tax values
 - Supplier RFQ drafting (draft only; never sends email)
 - K.K International inquiry drafting (draft only; no personal data is transmitted or stored)
+- Supplier research planning with targeted queries and a verification checklist
+- Supplier quotation comparison from user-provided offers
+- Buyer and target-market research planning
 - MCP Streamable HTTP endpoint at `/mcp`
 - CORS preflight support for ChatGPT app connectivity
 - Basic per-IP request rate limiting
 
-## Architecture and privacy boundary
+## Product roadmap\n\n**Stage 1 – Trade Assistant:** company profile, trade services, RFQ drafting, inquiry drafting, landed-cost estimates and documentation guidance.\n\n**Stage 2 – Global Sourcing Assistant:** supplier research planning, buyer/market research planning, supplier evidence checklists and quotation comparison. Live supplier and buyer discovery must use permitted public sources or authorized platform APIs; the research tools in this MVP prepare searches and organize evidence but do not claim to have searched or verified live listings.\n\n**Out of scope:** a standalone B2B marketplace with public buyer/supplier accounts, a supplier bidding network, payments or order management.\n\n## Architecture and privacy boundary
 
 This public MCP service is separate from the private K.K International Trade Desk. It must not read private customer, supplier, staff, payment, shipment, Gmail, or inquiry records. No private Trade Desk API credentials belong in this project.
 
-The first release is deliberately read-only / draft-only. Any future inquiry submission or CRM write action must have explicit user consent, server-side validation, rate limiting, and a separate protected endpoint.
+The first release is deliberately read-only / draft-only. Stage 2 tools prepare research plans and compare user-supplied evidence; they do not scrape marketplaces, access private supplier accounts, publish RFQs on third-party platforms, or contact suppliers. Any future inquiry submission or CRM write action must have explicit user consent, server-side validation, rate limiting, and a separate protected endpoint.
 
 ## Run locally
 
