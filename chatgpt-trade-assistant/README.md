@@ -9,6 +9,8 @@ Public ChatGPT app project for international trade workflows.
 - Supplier RFQ drafting (draft only; never sends email)
 - K.K International inquiry drafting (draft only; no personal data is transmitted or stored)
 - MCP Streamable HTTP endpoint at `/mcp`
+- CORS preflight support for ChatGPT app connectivity
+- Basic per-IP request rate limiting
 
 ## Architecture and privacy boundary
 
@@ -18,7 +20,7 @@ The first release is deliberately read-only / draft-only. Any future inquiry sub
 
 ## Run locally
 
-Requirements: Node.js 20+
+Requirements: Node.js 22.6+
 
 ```bash
 npm install
