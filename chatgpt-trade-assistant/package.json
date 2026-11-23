@@ -15,7 +15,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "express": "^5.1.0",
-    "zod": "^3.25.0",
+    "zod": "^4.6.7",
     "@modelcontextprotocol/ext-apps": "^1.7.5",
     "express-rate-limit": "^8.1.0"
   },
