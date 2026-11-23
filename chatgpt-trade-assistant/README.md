@@ -22,6 +22,8 @@ A platform-independent Model Context Protocol (MCP) service for international tr
 - Supplier quotation comparison from user-provided offers
 - Buyer and target-market research planning
 - MCP Streamable HTTP endpoint at `/mcp`
+- Shared client-neutral MCP server for ChatGPT and Claude
+- Automated end-to-end MCP client tests for initialization, tool discovery, tool calls, and optional UI resource reads
 - CORS preflight support and basic per-IP request rate limiting
 
 ## Product roadmap
@@ -48,6 +50,8 @@ Requirements: Node.js 22.6+
 npm install
 npm run dev
 ```
+
+The service entry point is `src/index.ts`; `src/server.ts` exports the Express app factory for automated compatibility tests.
 
 - Health: http://localhost:3000/health
 - MCP endpoint: http://localhost:3000/mcp
