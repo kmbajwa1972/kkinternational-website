@@ -45,7 +45,7 @@ npm test
 
 ## Deployment
 
-Deploy this folder as the project root on a host that supports persistent or serverless Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. Do not publish the endpoint until it has passed MCP Inspector and ChatGPT testing.
+Deploy this folder as the project root on a host that supports Node.js HTTP requests and MCP Streamable HTTP. Configure a stable HTTPS endpoint ending in `/mcp`. In production, set `ALLOWED_HOSTS` to the exact hostname(s) serving the MCP endpoint and `APP_DOMAIN` to the app UI origin (for example, `https://trade-assistant.example.com`). Production startup fails if the host allowlist is missing. Do not publish the endpoint until it has passed MCP Inspector and ChatGPT testing.
 
 ## Public listing preparation
 
