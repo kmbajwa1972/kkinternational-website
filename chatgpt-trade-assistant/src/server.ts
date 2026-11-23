@@ -1,7 +1,7 @@
 import express, { type Request, type Response } from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { z } from "zod";
+import { z } from "zod/v4";
 import rateLimit from "express-rate-limit";
 import { registerAppResource, registerAppTool, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 import { calculateLandedCost, buildSupplierRfq, buildSupplierResearchBrief, compareSupplierQuotes, buildBuyerMarketResearchBrief } from "./trade-logic.js";
